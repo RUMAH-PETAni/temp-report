@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+  body {
+    margin: 0;
+    overflow: hidden;
+  }
+  svg {
+    width: 100vw;
+    height: 100vh;
+    display: block;
+  }
+</style>
+<body>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script>
+
+// Buat canvas
+const width = window.innerWidth,
+      height = window.innerHeight;
+
+const svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+const projection = d3.geoOrthographic()
+    .scale(height / 2.2)
+    .translate([width / 2, height / 2])
+    .clipAngle(90);
+
+const path = d3.geoPath().projection(projection);
+
+// Load world map (background)
+Promise.all([
+  d3.json("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json"),
+  // GeoJSON provinsi + kabupaten dari GADM level 2
+  d3.json("https://raw.githubusercontent.com/superpikar/indonesia-geojson/master/indonesia-prov.geojson"),
+  d3.json("https://raw.githubusercontent.com/superpikar/indonesia-geojson/master/indonesia-kabkota.geojson")
+]).then(([world, provinsi, kabupaten]) => {
+
+    const countries = topojson.feature(world, world.objects.countries);
+
+    // Background globe
+    svg.append("g")
+      .selectAll("path")
+      .data(countries.features)
+      .enter().append("path")
+      .attr("d", path)
+      .attr("fill", "#69b3a2")
+      .attr("stroke", "#333")
+      .attr("opacity", 0.5);
+
+    // Highlight Lampung (provinsi)
+    const lampung = provinsi.features.find(d => d.properties.Propinsi === "Lampung");
+
+    svg.append("path")
+      .datum(lampung)
+      .attr("d", path)
+      .attr("fill", "orange")
+      .attr("stroke", "red")
+      .attr("stroke-width", 1.5);
+
+    // Highlight Tanggamus (kabupaten)
+    const tanggamus = kabupaten.features.find(d => d.properties.Kabupaten === "Tanggamus");
+
+    svg.append("path")
+      .datum(tanggamus)
+      .attr("d", path)
+      .attr("fill", "yellow")
+      .attr("stroke", "red")
+      .attr("stroke-width", 2);
+
+    // Fungsi untuk animasi fly-to
+    function flyTo(location, scale, duration, next) {
+      d3.transition()
+        .duration(duration)
+        .tween("rotate", () => {
+          const r = d3.interpolate(projection.rotate(), [-location[0], -location[1]]);
+          const s = d3.interpolate(projection.scale(), scale);
+          return t => {
+            projection.rotate(r(t)).scale(s(t));
+            svg.selectAll("path").attr("d", path);
+          };
+        })
+        .on("end", next);
+    }
+
+    // Lokasi target (longitude, latitude)
+    const indonesia = [106.8, -6.2];   // Jakarta
+    const lampungCenter   = [105.2, -5.4];
+    const tanggamusCenter = [104.6, -5.5];
+
+    // Jalankan animasi berurutan
+    flyTo(indonesia, 350, 2000, () => {
+      flyTo(lampungCenter, 800, 2500, () => {
+        flyTo(tanggamusCenter, 2000, 3000);
+      });
+    });
+
+});
+
+</script>
+</body>
+</html>
