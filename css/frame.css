@@ -1,0 +1,38 @@
+
+/* ====== Sankey cleanup (mobile-first) ====== */
+.sankey-container{
+  width:100%;
+  padding:0 10px;            /* 10px kiri/kanan seperti diminta */
+  box-sizing:border-box;     /* padding tidak menambah lebar di luar */
+  overflow-x:hidden;         /* cegah scroll horizontal dari svg */
+}
+
+#sankey{
+  width:100%;                /* ikut lebar container */
+  height:400px;              /* tinggi tetap (tidak berubah) */
+  display:block;
+}
+
+/* Node/label/tooltip tetap seperti sebelumnya */
+.node rect{
+  fill-opacity:.9;
+  shape-rendering:crispEdges;
+}
+.node text{
+  pointer-events:none;
+  font-size:12px;
+  dominant-baseline:middle;
+}
+.tooltip{
+  position:absolute;
+  background:#fff;
+  border:1px solid #ccc;
+  padding:6px;
+  font-size:12px;
+  pointer-events:none;
+  box-shadow:0 0 5px rgba(0,0,0,.3);
+}
+
+/* --- Hardening: neutralize any older conflicting rules that may still exist --- */
+.sankey-container svg{width:100%; height:400px;}
+/* jangan pernah pakai 100vw untuk #sankey agar tidak melebihi viewport */

@@ -1,0 +1,70 @@
+/*************************************************************************
+ * Your custom CSS file
+ *************************************************************************/
+
+.custom-dropdown {
+  width: 240px;
+}
+
+.custom-textbox {
+  width: 240px;
+}
+
+#dialog-1,
+#dialog-2,
+#dialog-3,
+#dialog-4,
+#share-dialog {
+  display: none;
+}
+
+#share-url {
+  width: 100%;
+  -webkit-touch-callout: default !important;
+  -webkit-user-select: text !important;
+  -khtml-user-select: text !important;
+  -moz-user-select: text !important;
+  -ms-user-select: text !important;
+  user-select: text !important;
+}
+
+#share-url-copy-prompt {
+  display: none;
+  color: #007bff;
+}
+
+/* scroll top */
+.scrollTop {
+  position: fixed;
+  bottom: -6rem;
+  right: 2rem;
+  padding: 10px 15px;
+  background-color: #333333;
+  opacity: 0.5;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.5s ease 0s;
+  z-index: 9999;
+}
+/* .scrollTop:hover {
+  box-sizing: border-box;
+  background-color: #fff;
+  border-color: #333333;
+  color: #333333;
+} */
+
+/* judul */
+.judul {
+  position: absolute;
+  /* top: 10rem; */
+  /* left: 2rem; */
+  width: 93%;
+  /* padding: 10px 15px; */
+  /* background-color: #333333;
+  opacity: 0.5; */
+  color: #fff;
+
+  transition: all 0.5s ease 0s;
+  z-index: 1;
+  text-align: right;
+}
