@@ -110,40 +110,10 @@
       <div class="content">
         <div class="content-table flex-column">
           <!-------------------------------------------------------------------------------------------->
-          <!--Start Intro-->
-          <!-- <div class="flex-row">
-            <div class="flex-item flex-column">
-              <h3>Daftar Isi</h3>
-              <ul>
-                <li><a href="#text-only">Pendahuluan</a></li>
-                <li><a href="#buttons-and-inputs">Metodologi</a></li>
-                <li>
-                  <a href="#images-and-image-button"
-                    >Analisis
-                    <ul>
-                      <li>
-                        <a href="#images-and-image-button"
-                          >Rantai Pasokan Kopi</a
-                        >
-                      </li>
-                      <li>
-                        <a href="#images-and-image-button"
-                          >Risiko Deforestasi</a
-                        >
-                      </li>
-                    </ul></a
-                  >
-                </li>
-                <li><a href="#text-around-image">Rekomendasi</a></li>
-              </ul>
-            </div>
-          </div> -->
-
-          <!--End Intro-->
           <!-------------------------------------------------------------------------------------------->
           <!--Start Text Only-->
           <div class="flex-row">
-            <div class="flex-item flex-column">
+            <div class="flex-item flex-column" id="Background">
               <h2 id="text-only">Latar Belakang</h2>
               <hr />
               <p class="text">
@@ -231,21 +201,31 @@
             <br />
 
             <div class="flex-item flex-column">
-              <h2 id="iframe">Tujuan Penilaian</h2>
+              <h2 id="iframe">Tujuan Kajian</h2>
               <hr />
               <p class="text">
-                Sebagai bagian dari upaya untuk memenuhi persyaratan kepatuhan
-                EUDR, kajian secara geospasial dilakukan untuk menilai risiko di
-                wilayah pasokan PT. Asia Makmur di Tanggamus, khususnya pada
-                tiga Kecamatan: Bandar Negeri Semuong, Semaka, dan Wonosobo.
-                Dengan tujuan yaitu:
+                Sebagai bagian dari upaya untuk memenuhi persyaratan kepatuhan,
+                EUDR menetapkan tanggal pemotongan (cut-off date) 31 Desember
+                2020, artinya komoditas yang berasal dari konversi hutan atau
+                degradasi setelah tanggal itu tidak boleh beredar di pasar UE.
+                Oleh karena itu diperlukan analisis untuk menilai apakah
+                produksi kopi dalam rantai pasok bersumber dari area yang aman
+                (bebas deforestasi), sesuai definisi hutan EUDR (kanopi ≥10%,
+                tinggi ≥5m). Kajian secara geospasial dilakukan untuk menilai
+                risiko di wilayah pasokan PT. Asia Makmur di Tanggamus,
+                khususnya pada tiga Kecamatan: Bandar Negeri Semuong, Semaka,
+                dan Wonosobo. Dengan tujuan yaitu:
               </p>
 
               <ul>
                 <li>Mengidentifikasi area dan rantai pasok kopi.</li>
                 <li>Menilai tingkat risiko deforestasi.</li>
-                <li>Memprioritaskan intervensi.</li>
-                <li>Memberikan rekomendasi strategi mitigasi.</li>
+                <li>
+                  Memprioritaskan intervensi.
+                  <ul>
+                    <li>Rekomendasi strategi mitigasi.</li>
+                  </ul>
+                </li>
               </ul>
             </div>
           </div>
@@ -260,235 +240,24 @@
           background-size: cover;
           height: 680px;
         "
-      >
-        <!-- <div
-          class="banner-table flex-column"
-          style="background-color: rgba(0, 0, 0, 0.5)"
-         >
-          <div class="flex-row">
-            <div class="flex-item flex-column">
-              <h1 class="add-top-margin-small">
-                Identify > Assess > Prioritize
-              </h1>
-            </div>
-          </div>
-        </div> -->
-      </div>
+      ></div>
       <div class="content">
         <div class="content-table flex-column">
           <!-------------------------------------------------------------------------------------------->
           <!--Start Text with Centered Image and Table-->
           <div class="flex-row">
-            <div class="flex-item flex-column">
+            <div class="flex-item flex-column" id="Metodologi">
               <h2 id="centered-image-and-table" class="no-top-margin">
                 Metodologi
               </h2>
               <hr />
               <p class="text">
-                Li Europan lingues es membres del sam familie. Lor separat
-                existentie es un myth. Por scientie, musica, sport etc, litot
-                Europa usa li sam vocabular. Li lingues differe solmen in li
-                grammatica, li pronunciation e li plu commun vocabules. Omnicos
-                directe al desirabilite de un nov lingua franca: On refusa
-                continuar payar custosi traductores. At solmen va esser.
+                Ruang lingkup: Analisis spasial murni untuk periode 2021–2025 di
+                tiga Kecamatan [Bandar Negeri Semuong, Semaka, Wonosobo]
+                menggunakan sumber data publik yang tersedia (portal/layers yang
+                diakses via API/unduh).
               </p>
-              <p class="text text-center graph-title">
-                This image does not scroll and only scale.
-              </p>
-              <img
-                class="image center max-width-400 add-top-margin-small"
-                src="img/dummay-img.png"
-              />
-              <p class="text text-center graph-title">
-                This image scrolls on mobile with a fixed height.
-              </p>
-              <div
-                class="scrollable-image-container center add-top-margin-small"
-              >
-                <img class="scrollable-image center" src="img/dummay-img.png" />
-              </div>
-              <p class="text">
-                Li Europan lingues es membres del sam familie. Lor separat
-                existentie es un myth. Por scientie, musica, sport etc, litot
-                Europa usa li sam vocabular. Li lingues differe solmen in li
-                grammatica, li pronunciation e li plu commun vocabules. Omnicos
-                directe al desirabilite de un nov lingua franca: On refusa
-                continuar payar custosi traductores. At solmen va esser.
-              </p>
-              <p class="text text-center graph-title">
-                This is the title for the bottom scrollable table.
-              </p>
-              <div class="custom-table-container center add-top-margin-small">
-                <table class="custom-table">
-                  <thead>
-                    <tr class="bg-color-gray">
-                      <th>Number of</th>
-                      <th class="text-center">Unique Users</th>
-                      <th class="text-center">Smell Reports</th>
-                      <th class="text-center">Interaction Events</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Enthusiasts</td>
-                      <td class="text-center">9.4%</td>
-                      <td class="text-center">50.6%</td>
-                      <td class="text-center">44.8%</td>
-                    </tr>
-                    <tr class="bg-color-light-gray">
-                      <td>Explorers</td>
-                      <td class="text-center">36.1%</td>
-                      <td class="text-center">37.3%</td>
-                      <td class="text-center">27.3%</td>
-                    </tr>
-                    <tr>
-                      <td>Contributors</td>
-                      <td class="text-center">13.0%</td>
-                      <td class="text-center">12.1%</td>
-                      <td class="text-center">n/a</td>
-                    </tr>
-                    <tr class="bg-color-light-gray">
-                      <td>Observers</td>
-                      <td class="text-center">41.6%</td>
-                      <td class="text-center">n/a</td>
-                      <td class="text-center">27.9%</td>
-                    </tr>
-                  </tbody>
-                  <tfoot>
-                    <tr>
-                      <td>Size (N)</td>
-                      <td class="text-center">2,237</td>
-                      <td class="text-center">8,112</td>
-                      <td class="text-center">79,447</td>
-                    </tr>
-                  </tfoot>
-                </table>
-              </div>
-              <p class="text text-center graph-title">
-                This is the title for the bottom very long scrollable table.
-              </p>
-              <div class="custom-table-container center add-top-margin-small">
-                <table class="custom-table">
-                  <thead>
-                    <tr class="bg-color-gray">
-                      <th class="text-center">Smell Rating</th>
-                      <th class="text-center">2019</th>
-                      <th class="text-center">2018</th>
-                      <th class="text-center">2017</th>
-                      <th class="text-center">2016</th>
-                      <th class="text-center">2015</th>
-                      <th class="text-center">2014</th>
-                      <th class="text-center">2013</th>
-                      <th class="text-center">2012</th>
-                      <th class="text-center">2011</th>
-                      <th class="text-center">2010</th>
-                      <th class="text-center">2009</th>
-                      <th class="text-center">2008</th>
-                      <th class="text-center">2007</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td class="text-center">1</td>
-                      <td class="text-center">1,711 (9.5%)</td>
-                      <td class="text-center">1,199 (13.0%)</td>
-                      <td class="text-center">1,658 (20.4%)</td>
-                      <td class="text-center">1,199 (13.0%)</td>
-                      <td class="text-center">1,658 (20.4%)</td>
-                      <td class="text-center">1,199 (13.0%)</td>
-                      <td class="text-center">1,658 (20.4%)</td>
-                      <td class="text-center">1,199 (13.0%)</td>
-                      <td class="text-center">1,658 (20.4%)</td>
-                      <td class="text-center">1,199 (13.0%)</td>
-                      <td class="text-center">1,658 (20.4%)</td>
-                      <td class="text-center">1,199 (13.0%)</td>
-                      <td class="text-center">1,658 (20.4%)</td>
-                    </tr>
-                    <tr class="bg-color-light-gray">
-                      <td class="text-center">2</td>
-                      <td class="text-center">798 (4.4%)</td>
-                      <td class="text-center">497 (5.4%)</td>
-                      <td class="text-center">665 (8.2%)</td>
-                      <td class="text-center">497 (5.4%)</td>
-                      <td class="text-center">665 (8.2%)</td>
-                      <td class="text-center">497 (5.4%)</td>
-                      <td class="text-center">665 (8.2%)</td>
-                      <td class="text-center">497 (5.4%)</td>
-                      <td class="text-center">665 (8.2%)</td>
-                      <td class="text-center">497 (5.4%)</td>
-                      <td class="text-center">665 (8.2%)</td>
-                      <td class="text-center">497 (5.4%)</td>
-                      <td class="text-center">665 (8.2%)</td>
-                    </tr>
-                    <tr>
-                      <td class="text-center">3</td>
-                      <td class="text-center">4,305 (23.9%)</td>
-                      <td class="text-center">2,649 (28.8%)</td>
-                      <td class="text-center">2,246 (27.7%)</td>
-                      <td class="text-center">2,649 (28.8%)</td>
-                      <td class="text-center">2,246 (27.7%)</td>
-                      <td class="text-center">2,649 (28.8%)</td>
-                      <td class="text-center">2,246 (27.7%)</td>
-                      <td class="text-center">2,649 (28.8%)</td>
-                      <td class="text-center">2,246 (27.7%)</td>
-                      <td class="text-center">2,649 (28.8%)</td>
-                      <td class="text-center">2,246 (27.7%)</td>
-                      <td class="text-center">2,649 (28.8%)</td>
-                      <td class="text-center">2,246 (27.7%)</td>
-                    </tr>
-                    <tr class="bg-color-light-gray">
-                      <td class="text-center">4</td>
-                      <td class="text-center">5,804 (32.3%)</td>
-                      <td class="text-center">2,932 (31.9%)</td>
-                      <td class="text-center">2,171 (26.8%)</td>
-                      <td class="text-center">2,932 (31.9%)</td>
-                      <td class="text-center">2,171 (26.8%)</td>
-                      <td class="text-center">2,932 (31.9%)</td>
-                      <td class="text-center">2,171 (26.8%)</td>
-                      <td class="text-center">2,932 (31.9%)</td>
-                      <td class="text-center">2,171 (26.8%)</td>
-                      <td class="text-center">2,932 (31.9%)</td>
-                      <td class="text-center">2,171 (26.8%)</td>
-                      <td class="text-center">2,932 (31.9%)</td>
-                      <td class="text-center">2,171 (26.8%)</td>
-                    </tr>
-                    <tr>
-                      <td class="text-center">5</td>
-                      <td class="text-center">5,356 (29.8%)</td>
-                      <td class="text-center">1,918 (20.9%)</td>
-                      <td class="text-center">1,372 (16.9%)</td>
-                      <td class="text-center">1,918 (20.9%)</td>
-                      <td class="text-center">1,372 (16.9%)</td>
-                      <td class="text-center">1,918 (20.9%)</td>
-                      <td class="text-center">1,372 (16.9%)</td>
-                      <td class="text-center">1,918 (20.9%)</td>
-                      <td class="text-center">1,372 (16.9%)</td>
-                      <td class="text-center">1,918 (20.9%)</td>
-                      <td class="text-center">1,372 (16.9%)</td>
-                      <td class="text-center">1,918 (20.9%)</td>
-                      <td class="text-center">1,372 (16.9%)</td>
-                    </tr>
-                  </tbody>
-                  <tfoot>
-                    <tr>
-                      <td class="text-center">Sum</td>
-                      <td class="text-center">17,974</td>
-                      <td class="text-center">9,195</td>
-                      <td class="text-center">8,112</td>
-                      <td class="text-center">9,195</td>
-                      <td class="text-center">8,112</td>
-                      <td class="text-center">9,195</td>
-                      <td class="text-center">8,112</td>
-                      <td class="text-center">9,195</td>
-                      <td class="text-center">8,112</td>
-                      <td class="text-center">9,195</td>
-                      <td class="text-center">8,112</td>
-                      <td class="text-center">9,195</td>
-                      <td class="text-center">8,112</td>
-                    </tr>
-                  </tfoot>
-                </table>
-              </div>
+
               <p class="text">
                 Li Europan lingues es membres del sam familie. Lor separat
                 existentie es un myth. Por scientie, musica, sport etc, litot

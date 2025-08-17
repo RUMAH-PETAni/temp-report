@@ -40,18 +40,18 @@
   right: 2rem;
   padding: 10px 15px;
   background-color: #333333;
-  opacity: 0.5;
+  opacity: 0.25;
   color: #fff;
   cursor: pointer;
   transition: all 0.5s ease 0s;
   z-index: 9999;
 }
-/* .scrollTop:hover {
+.scrollTop:hover {
   box-sizing: border-box;
-  background-color: #fff;
-  border-color: #333333;
-  color: #333333;
-} */
+  background-color: #333333;
+  color: #fff;
+  opacity: 0.5;
+}
 
 /* judul */
 .judul {
