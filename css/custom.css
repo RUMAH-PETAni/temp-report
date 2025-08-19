@@ -68,3 +68,29 @@
   z-index: 1;
   text-align: right;
 }
+
+/* === Fix posisi hover hero1 === */
+.hero1 .container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.mask-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.mask-wrapper .hover-area {
+  pointer-events: auto;
+}
+
+.label {
+  position: absolute;
+  transform: translate(-50%, -50%);
+}

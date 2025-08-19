@@ -1765,7 +1765,98 @@ ol.nested > li:before {
 
   .gallery > a.flex-column,
   .gallery > div.flex-column {
-    flex: 1 0 100%;
-    max-width: 100%;
+    flex: 1 0 50%;
+    max-width: 50%;
   }
+}
+
+/* === Interactive Mask Styles Added === */
+
+      margin: 0;
+      background: #0b0b0b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      color: #fff;
+      font-family: 'Roboto Mono', monospace;
+    }
+      position: relative;
+      width: 1314px;
+      height: 739px;
+      background: url("tiga.png") no-repeat center;
+      background-size: 100% 100%;
+    }
+    .mask-wrapper {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      position: absolute;
+      inset: 0;
+    }
+    .hover-area {
+      width: 100%;
+      height: 100%;
+      pointer-events: auto;
+      position: absolute;
+      inset: 0;
+      background: transparent;
+      opacity: 0;
+      transition: opacity .25s ease, transform .25s ease;
+      cursor: pointer;
+    }
+    .hover-area:hover {
+      opacity: 1;
+      transform: scale(1.002);
+      z-index: 2;
+    }
+    .label { font-size: 50px !important;
+
+      position: absolute;
+      transform: translate(-50%, -50%);
+      padding: .35rem .75rem;
+      font-weight: 800;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      -webkit-text-fill-color: #ffffff;
+      text-shadow: 0 2px 14px rgba(0, 0, 0, 0.6);
+      border-radius: 12px;
+      backdrop-filter: blur(2px);
+      opacity: 0;
+      transition: opacity .2s ease;
+      pointer-events: none;
+      z-index: 3;
+    }
+    .mask-wrapper:hover .label { font-size: 50px !important;
+
+      opacity: 1;
+    }
+
+    .mask-identify { clip-path: polygon(528px 214px, 529px 207px, 532px 193px, 540px 171px, 545px 161px, 547px 157px, 552px 149px, 557px 142px, 559px 139px, 564px 133px, 572px 123px, 591px 106px, 598px 100px, 602px 98px, 617px 88px, 624px 85px, 632px 81px, 647px 75px, 656px 73px, 671px 69px, 681px 67px, 689px 66px, 723px 66px, 733px 67px, 745px 69px, 750px 70px, 760px 73px, 775px 77px, 784px 81px, 792px 85px, 799px 88px, 814px 98px, 822px 103px, 847px 126px, 853px 133px, 858px 140px, 863px 147px, 868px 156px, 870px 159px, 876px 172px, 881px 186px, 884px 196px, 886px 205px, 887px 211px, 888px 219px, 888px 248px, 886px 259px, 884px 271px, 883px 274px, 881px 281px, 876px 294px, 875px 296px, 872px 301px, 870px 304px, 866px 304px, 693px 297px, 691px 296px, 528px 221px); }
+    .label-identify { left: 55.025%; top: 26.818%; }
+    
+    .mask-prioritize { clip-path: polygon(360px 368px, 362px 354px, 363px 351px, 366px 340px, 368px 335px, 371px 328px, 373px 323px, 383px 305px, 388px 297px, 392px 292px, 395px 288px, 400px 282px, 406px 276px, 421px 262px, 428px 257px, 442px 248px, 452px 242px, 468px 235px, 478px 231px, 481px 230px, 494px 226px, 506px 224px, 515px 222px, 525px 222px, 528px 226px, 610px 374px, 620px 537px, 618px 539px, 612px 542px, 604px 545px, 592px 548px, 588px 549px, 578px 551px, 571px 552px, 562px 553px, 510px 553px, 500px 551px, 486px 547px, 483px 547px, 475px 544px, 468px 541px, 452px 534px, 447px 531px, 435px 524px, 421px 513px, 404px 498px, 399px 492px, 390px 481px, 382px 469px, 374px 455px, 369px 444px, 365px 432px, 364px 429px, 363px 424px, 361px 413px, 360px 405px); }
+    .label-prioritize { left: 36.984%; top: 59.082%; }
+    
+    .mask-assess { clip-path: polygon(621px 534px, 719px 397px, 720px 396px, 869px 305px, 871px 305px, 875px 306px, 879px 309px, 884px 313px, 895px 322px, 904px 330px, 911px 338px, 923px 352px, 925px 355px, 928px 360px, 932px 366px, 937px 375px, 939px 380px, 944px 392px, 947px 401px, 948px 405px, 950px 414px, 952px 426px, 952px 459px, 951px 467px, 950px 473px, 948px 481px, 946px 489px, 942px 500px, 939px 507px, 936px 513px, 931px 523px, 926px 531px, 921px 538px, 916px 545px, 907px 555px, 893px 568px, 887px 572px, 872px 583px, 859px 591px, 847px 596px, 829px 603px, 823px 605px, 806px 608px, 794px 610px, 783px 611px, 751px 611px, 744px 610px, 738px 609px, 726px 606px, 719px 605px, 713px 603px, 703px 599px, 679px 588px, 664px 579px, 660px 576px, 655px 572px, 649px 568px, 635px 555px, 631px 550px, 628px 547px, 624px 541px, 621px 535px); }
+    .label-assess { left: 61.658%; top: 70.567%; }
+    
+  
+
+
+.hero1 img.hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.hero1 .container {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 1314px;
+  height: 680px;
+  transform: translateX(-50%);
 }

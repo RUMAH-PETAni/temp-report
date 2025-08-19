@@ -140,7 +140,53 @@
   user-select: none;
 }
 
+.custom-button-flat2 {
+  /* font-family: 'Open Sans', Helvetica, Arial, sans-serif; */
+  font-family: "Roboto Mono", monospace;
+  /* text-align: center; */
+  font-size: 16px;
+  line-height: 16px;
+  outline: none;
+  border-radius: 48px;
+  cursor: pointer;
+  box-shadow: none;
+  transition: background-color 0.1s, box-shadow 0.1s, border 0.1s;
+  text-decoration: none;
+  color: black;
+  /* border: 1px solid #777777; */
+  border: none;
+  background-color: white;
+  padding: 13px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  box-sizing: border-box;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  text-align: left;
+}
+
+@media (max-width: 500px) {
+  .custom-button-flat2 {
+    rotate: 90deg;
+  }
+}
+
 .custom-button-flat.large {
+  font-size: 18px;
+  line-height: 18px;
+  padding: 17px;
+  border-radius: 56px;
+}
+
+.custom-button-flat.xlarge {
   font-size: 18px;
   line-height: 18px;
   padding: 17px;
@@ -164,6 +210,11 @@
   height: 20px;
 }
 
+.custom-button-flat2 img {
+  width: 20px;
+  height: 20px;
+}
+
 .custom-button-flat.small img {
   width: 16px;
   height: 16px;
@@ -172,6 +223,11 @@
 .custom-button-flat.large img {
   width: 24px;
   height: 24px;
+}
+
+.custom-button-flat.xlarge img {
+  width: 50px;
+  height: 50px;
 }
 
 .custom-button-flat span {
