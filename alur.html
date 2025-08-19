@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,maximum-scale=1, user-scalable=no"
+    />
+    <title>Workflow</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        background: #ffffff;
+        overflow-x: hidden;
+      }
+      .title {
+        font-family: "Roboto Mono", monospace;
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        text-align: center;
+        color: #000000;
+      }
+      .wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+        align-items: center;
+      }
+      .row {
+        display: flex;
+        gap: 100px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      .row2 {
+        display: flex;
+        gap: 100px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      .item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex: 1 1 auto;
+      }
+      /* Perkecil GIF 1-4 jadi 25% */
+      .row:first-child .item img {
+        width: 80px;
+        height: auto;
+      }
+      /* Perkecil GIF baris kedua agar total lebarnya mirip dengan baris pertama */
+      .row:nth-of-type(2) .item img {
+        width: 80px;
+        height: auto;
+      }
+      .row2:first-child .item img {
+        width: 160px;
+        height: auto;
+      }
+
+      .caption {
+        margin-top: 6px;
+        text-align: center;
+        font-family: "Roboto Mono", monospace;
+        color: #000000;
+        word-wrap: break-word;
+      }
+      /* Kecilkan font baris pertama */
+      .row:first-child .caption {
+        font-size: 10px;
+      }
+      .row:nth-of-type(2) .caption {
+        font-size: 10px;
+      }
+      /* Kecilkan font baris pertama */
+      .row2:first-child .caption {
+        font-size: 10px;
+      }
+      .row2:nth-of-type(2) .caption {
+        font-size: 10px;
+      }
+
+      @media (max-width: 500px) {
+        .row:first-child .item img {
+          width: 50px;
+          height: auto;
+        }
+        /* Perkecil GIF baris kedua agar total lebarnya mirip dengan baris pertama */
+        .row:nth-of-type(2) .item img {
+          width: 100px;
+          height: auto;
+        }
+        .row2:first-child .item img {
+          width: 100px;
+          height: auto;
+        }
+        .row {
+          display: flex;
+          gap: 20px;
+          justify-content: center;
+          flex-wrap: wrap;
+        }
+        .row2 {
+          display: flex;
+          gap: 20px;
+          justify-content: center;
+          flex-wrap: wrap;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="title">PROSES:</div>
+    <div class="wrapper">
+      <div class="row">
+        <div class="item">
+          <img src="img/flaticon/indonesia-map.png" alt="indonesia-map" />
+
+          <div class="caption">1.GEODATA</div>
+        </div>
+        <div class="item">
+          <img src="img/flaticon/layers.png" alt="layers" />
+
+          <div class="caption">2.LAPISAN<br />KONTEKSTUAL</div>
+        </div>
+        <div class="item">
+          <img src="img/flaticon/analytics.png" alt="analytics" />
+          <div class="caption">3.ANALISIS<br />GIS</div>
+        </div>
+        <div class="item">
+          <img src="img/flaticon/audit.png" alt="audit" />
+
+          <div class="caption">4.PENILAIAN<br />RISIKO</div>
+        </div>
+      </div>
+    </div>
+    <div class="title" style="margin-top: 10px">OUTPUT:</div>
+    <div class="wrapper">
+      <div class="row2">
+        <div class="item">
+          <img src="img/flaticon/worldwide.png" alt="worldwide" />
+
+          <div class="caption">
+            - PETA RANTAI PASOKAN<br />- PETA RISIKO DEFORESTASI
+          </div>
+        </div>
+        <div class="item">
+          <img src="img/flaticon/outcome.png" alt="outcome" />
+
+          <div class="caption">DOKUMEN PENDUKUNG<br />UJI TUNTAS</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
