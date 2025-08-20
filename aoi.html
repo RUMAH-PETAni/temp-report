@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WILAYAH KAJIAN</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet-gesture-handling/dist/leaflet-gesture-handling.min.css"
+    />
+    <style>
+      body {
+        font-family: "Roboto Mono", monospace;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+      }
+      h3 {
+        text-align: center;
+        margin: 0;
+        padding: 10px;
+        font-size: 1em;
+      }
+      #map {
+        flex: 1;
+        width: 100%;
+      }
+      .label {
+        pointer-events: none;
+      }
+      @media (max-width: 600px) {
+        h3 {
+          font-size: 1em;
+          padding: 8px;
+        }
+        .label span {
+          font-size: 10px !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h3>Wilayah Kajian</h3>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-gesture-handling"></script>
+    <script>
+      // Inisialisasi peta dengan GestureHandling
+      const map = L.map("map", {
+        minZoom: 5,
+        maxZoom: 20,
+        gestureHandling: true,
+      }).setView([-5.5, 105.3], 6);
+
+      // Basemap
+      const light = L.tileLayer(
+        "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+        {
+          attribution:
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> contributors &copy; <a href="https://www.carto.com/">CARTO</a>',
+          subdomains: "abcd",
+          maxZoom: 20,
+        }
+      );
+
+      const dark = L.tileLayer(
+        "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+        {
+          attribution:
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> contributors &copy; <a href="https://www.carto.com/">CARTO</a>',
+          subdomains: "abcd",
+          maxZoom: 20,
+        }
+      );
+
+      const osm = L.tileLayer(
+        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        {
+          attribution:
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+          maxZoom: 19,
+        }
+      );
+
+      const satellite = L.tileLayer(
+        "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        {
+          attribution:
+            "Tiles &copy; Esri &mdash; Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community",
+        }
+      );
+
+      osm.addTo(map); // Default light
+
+      // Layer control toggle
+      const baseMaps = {
+        "OSM Standar": osm,
+        // "Monokrom Terang": light,
+        // "Monokrom Gelap": dark,
+        "Citra Satelit (Esri)": satellite,
+      };
+      L.control.layers(baseMaps).addTo(map);
+
+      // URL GeoJSON
+      const geojsonUrl =
+        "https://raw.githubusercontent.com/RUMAH-PETAni/Map_Animasi/main/AOI.geojson";
+
+      // Style default dan highlight
+      const defaultStyle = { color: "red", weight: 2, fillOpacity: 0.2 };
+      const highlightStyle = { color: "red", weight: 3, fillOpacity: 0.5 };
+
+      // Ambil dan tampilkan GeoJSON
+      fetch(geojsonUrl)
+        .then((res) => res.json())
+        .then((data) => {
+          const geoLayer = L.geoJSON(data, {
+            style: defaultStyle,
+            onEachFeature: (feature, layer) => {
+              let popupContent = "";
+              if (feature.properties) {
+                popupContent = Object.entries(feature.properties)
+                  .filter(([k, v]) => k && k.toLowerCase() !== "area")
+                  .map(([k, v]) => `<b>${k}:</b> ${v}`)
+                  .join("<br>");
+                if (popupContent)
+                  layer.bindPopup(popupContent, { autoPan: false });
+
+                const name =
+                  feature.properties.Kecamatan ||
+                  feature.properties.kecamatan ||
+                  feature.properties.NAMOBJ;
+                if (name) {
+                  const center = layer.getBounds().getCenter();
+                  L.marker(center, {
+                    icon: L.divIcon({
+                      className: "label",
+                      html: `<span style="font-family:'Roboto Mono', monospace; font-size:12px; color:black; background:white; padding:2px 4px; border-radius:3px;">${name}</span>`,
+                      iconSize: [120, 24],
+                    }),
+                    interactive: false,
+                  }).addTo(map);
+                }
+              }
+
+              // Event highlight & popup on hover
+              layer.on({
+                mouseover: (e) => {
+                  e.target.setStyle(highlightStyle);
+                  if (popupContent) {
+                    e.target.openPopup(e.latlng);
+                  }
+                  if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+                    e.target.bringToFront();
+                  }
+                },
+                mouseout: (e) => {
+                  geoLayer.resetStyle(e.target);
+                  e.target.closePopup();
+                },
+              });
+            },
+          }).addTo(map);
+
+          // Batasi area peta sesuai bounding box AOI
+          map.fitBounds(geoLayer.getBounds());
+          map.setMaxBounds(geoLayer.getBounds());
+        })
+        .catch((err) => console.error(err));
+    </script>
+  </body>
+</html>
