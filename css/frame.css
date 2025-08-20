@@ -4,6 +4,13 @@
  * Instead, add your own CSS in the custom.css file
  *************************************************************************/
 
+:root {
+
+  --bg: #6F4E37;
+  --bg2: #555555;
+   --bg3: #82C8E5;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -110,7 +117,7 @@ hr {
   z-index: 2;
   position: absolute;
   width: 100%;
-  background-color: #333333;
+  background-color: var(--bg);
   min-width: 300px;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -331,7 +338,7 @@ hr {
   font-weight: 300;
   line-height: 1.5;
   overflow-x: auto;
-  background-color: #005cbf;
+  background-color: var(--bg2);
   display: flex;
 }
 
@@ -341,6 +348,8 @@ hr {
   margin: 0 auto;
   align-self: flex-end;
 }
+
+
 
 .banner .banner-table a {
   color: #a3cfff;
