@@ -4,7 +4,7 @@ window.onscroll = function () {
   if (prevScrollpos > currentScrollPos) {
     document.getElementById("scrollTop").style.bottom = "-6rem";
   } else {
-    if (currentScrollPos > 200) {
+    if (currentScrollPos > 50) {
       /* Menampilkan tombol ketika halaman di-scroll ke bawah lebih dari 200px */
       document.getElementById("scrollTop").style.bottom = "2rem";
     }
