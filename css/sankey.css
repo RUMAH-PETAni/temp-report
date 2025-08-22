@@ -1,0 +1,38 @@
+body {
+  font-family: "Roboto Mono", monospace;
+  margin: 0;
+  overflow-x: hidden; /* cegah scroll horizontal halaman */
+}
+
+.sankey-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+#sankey {
+  width: 100vw; /* pas layar, tanpa overshoot container */
+  height: 100vh; /* tinggi tetap */
+  display: block; /* hilangkan gap inline */
+}
+
+.node rect {
+  fill-opacity: 0.9;
+  shape-rendering: crispEdges;
+}
+
+.node text {
+  pointer-events: none;
+  font-size: 12px; /* font tetap */
+  dominant-baseline: middle;
+}
+
+.tooltip {
+  position: absolute;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 6px;
+  font-size: 12px;
+  pointer-events: none;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
