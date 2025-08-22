@@ -1,20 +1,35 @@
-
-// --- Data & helpers (unchanged from your prior file assumptions) ---
-const benuaOrder = ["Amerika","Eropa","Asia","Lainnya"];
-const negaraOrder = ["Inggris","Belgia","Jerman","Rusia","Italia","Prancis"];
-const rawData = [
-  // [Benua, Negara, Volume]
-  ["Eropa","Inggris", 6500],
-  ["Eropa","Belgia", 8200],
-  ["Eropa","Jerman", 12000],
-  ["Eropa","Rusia", 3000],
-  ["Eropa","Italia", 7800],
-  ["Eropa","Prancis", 5400],
+let rawData = [
+  ["Amerika", "US", 1512],
+  ["Asia", "Filipina", 920],
+  ["Asia", "Malaysia", 1498],
+  ["Eropa", "UK", 4847],
+  ["Eropa", "Belgia", 3564],
+  ["Eropa", "Jerman", 3326],
+  ["Eropa", "Rusia", 2700],
+  ["Eropa", "Italia", 1643],
+  ["Eropa", "Prancis", 432],
+  ["Eropa", "Georgia", 401],
+  ["Lainnya", "Lain-lain", 1247],
 ];
 
-const total = rawData.reduce((a,b)=>a+b[2],0);
+const total = rawData.reduce((sum, r) => sum + r[2], 0);
 
-const benuaColors = {
+// Sorting
+let negaraOrder = [...rawData]
+  .sort((a, b) => {
+    if (a[1] === "Lain-lain") return 1;
+    if (b[1] === "Lain-lain") return -1;
+    return b[2] - a[2];
+  })
+  .map((r) => r[1]);
+
+let benuaOrder = [...new Set(rawData.map((r) => r[0]))].sort((a, b) => {
+  if (a === "Lainnya") return 1;
+  if (b === "Lainnya") return -1;
+  return a.localeCompare(b);
+});
+
+let benuaColors = {
   Amerika: "#ff7f0e",
   Asia: "#2ca02c",
   Eropa: "#1f77b4",
@@ -37,26 +52,15 @@ function truncateText(textSel, maxWidth) {
   });
 }
 
-function drawSankey(){
-  const container = document.querySelector(".sankey-container");
-  const svg = d3.select("#sankey");
+function drawSankey() {
+  let svg = d3.select("#sankey");
+  let width = Math.floor(svg.node().clientWidth); // sesuai 100vw
+  let height = parseInt(svg.style("height"));
 
-  if(!container || svg.empty()) return;
+  svg.selectAll("*").remove(); // clear previous
+  d3.selectAll("div.tooltip").remove(); // buang tooltip lama agar tidak numpuk
 
-  // Hitung lebar aktual: ambil lebar kontainer (sudah termasuk padding 10px kiri/kanan)
-  // Kita gunakan clientWidth agar mengikuti layout tanpa menambah scroll horizontal
-  const containerWidth = container.clientWidth;
-  const width = Math.max(280, containerWidth); // tetap ada batas minimum
-  const height = parseInt(svg.style("height")) || 400; // tinggi tetap
-
-  // Bersihkan render sebelumnya + tooltip lama agar tidak dobel
-  svg.selectAll("*").remove();
-  d3.selectAll("div.tooltip").remove();
-
-  // Terapkan atribut width/height ke SVG agar ukuran fix, tanpa memengaruhi font/tinggi
-  svg.attr("width", width).attr("height", height);
-
-  // Build nodes/links
+  // build nodes
   let nodes = [{ name: "Asia Makmur", type: "root" }];
   benuaOrder.forEach((b) => nodes.push({ name: b, type: "benua" }));
   negaraOrder.forEach((n) => {
@@ -64,6 +68,7 @@ function drawSankey(){
     nodes.push({ name: n, type: "negara", benua });
   });
 
+  // build links
   let links = [];
   benuaOrder.forEach((b) => {
     let vol = rawData.filter((r) => r[0] === b).reduce((sum, r) => sum + r[2], 0);
@@ -87,26 +92,23 @@ function drawSankey(){
     if (n.type === "negara") sortMap[n.name] = negaraOrder.indexOf(n.name);
   });
 
-  // Margin sisi dalam untuk node/label
-  const innerLeftRight = 40;
-
-  const sankey = d3.sankey()
-    .nodeWidth(14)
-    .nodePadding(10)
-    .extent([[innerLeftRight, 1], [width - innerLeftRight, height - 6]])
+  let sankey = d3.sankey()
+    .nodeWidth(20)
+    .nodePadding(15)
+    .extent([[1, 1], [width - 1, height - 6]])
     .nodeSort((a, b) => sortMap[a.name] - sortMap[b.name]);
 
-  const { nodes: graphNodes, links: graphLinks } = sankey({
+  let { nodes: graphNodes, links: graphLinks } = sankey({
     nodes: nodes.map((d) => Object.assign({}, d)),
     links: links.map((d) => Object.assign({}, d)),
   });
 
-  const tooltip = d3.select("body")
+  let tooltip = d3.select("body")
     .append("div")
     .attr("class", "tooltip")
     .style("opacity", 0);
 
-  const color = (d) => {
+  let color = (d) => {
     if (d.type === "root") return "#ccc";
     if (d.type === "benua") return benuaColors[d.name] || "#ccc";
     return benuaColors[d.benua] || "#ccc";
@@ -142,9 +144,9 @@ function drawSankey(){
     })
     .on("touchend", () => tooltip.style("opacity", 0));
 
-  const marginLabel = 6;
+  const margin = 6;
 
-  const node = svg.append("g")
+  let node = svg.append("g")
     .selectAll("g")
     .data(graphNodes)
     .join("g")
@@ -159,15 +161,15 @@ function drawSankey(){
     .attr("stroke", "#000");
 
   node.append("text")
-    .attr("x", (d) => (d.x0 < width / 2 ? d.x1 + marginLabel : d.x0 - marginLabel))
+    .attr("x", (d) => (d.x0 < width / 2 ? d.x1 + margin : d.x0 - margin))
     .attr("y", (d) => (d.y1 + d.y0) / 2)
     .attr("dy", "0.35em")
     .attr("text-anchor", (d) => (d.x0 < width / 2 ? "start" : "end"))
     .text((d) => d.name)
     .each(function(d) {
       const available = d.x0 < width / 2
-        ? width - (d.x1 + marginLabel)   // ruang ke kanan
-        : d.x0 - marginLabel;            // ruang ke kiri
+        ? width - (d.x1 + margin)   // ruang ke kanan
+        : d.x0 - margin;            // ruang ke kiri
       truncateText(d3.select(this), Math.max(0, available - 4));
     });
 }
