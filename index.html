@@ -31,6 +31,12 @@
       rel="stylesheet"
       type="text/css"
     />
+        <link
+      href="css/widgets.css"
+      media="screen"
+      rel="stylesheet"
+      type="text/css"
+    />
     <link
       href="https://fonts.googleapis.com/css?family=Open+Sans:400,700"
       rel="stylesheet"
@@ -53,11 +59,13 @@
 
     <!-- Feather Icons -->
     <script src="https://unpkg.com/feather-icons"></script>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script src="js/menu.js"></script>
     <script src="js/footer.js"></script>
-
+  <script src="js/widgets.js"></script>
+    <script src="js/util.js"></script>
+     <script src="js/custom.js"></script>
     <style>
       .menu-index {
         color: rgb(255, 255, 255) !important;
@@ -273,17 +281,18 @@
                 Metodologi
               </h2>
               <hr />
-              
               <iframe class="iframe-in-body" src="aoi.html"></iframe>
               <h3 id="">Ruang Lingkup</h3>
               <p class="text">
                 Definisi dari hutan dan deforestasi yang digunakan dalam kajian ini mengacu sesuai dengan peraturan EUDR:
                 <ul style="font-size:0.8em; line-height:1.4;">
                   <li>
-                  Hutan (Forest) = Lahan dengan tutupan pohon >0.5 hektar, dengan pohon yang dapat mencapai tinggi minimal 5 meter pada saat dewasa, dan memiliki tajuk/kanopi lebih dari 10%. Tidak termasuk:
+                  Hutan (Forest) = Lahan dengan tutupan pohon >0.5 hektar, dengan pohon yang dapat mencapai tinggi 
+                  minimal 5 meter pada saat dewasa, dan memiliki tajuk/kanopi lebih dari 10%. Tidak termasuk:
                     <ul>
                       <li>
-                      Lahan yang didominasi sistem pertanian permanen (misalnya kebun sawit, kebun kopi, kebun karet, agroforestri tertentu).
+                      Lahan yang didominasi sistem pertanian permanen (misalnya kebun sawit, kebun kopi, kebun karet, 
+                      agroforestri tertentu).
                       </li>
                       <li>
                       Lahan dengan infrastruktur, pemukiman, atau penggunaan non-hutan.
@@ -294,43 +303,40 @@
                   </p>     -->
                   </li>
                   <li>
-                  Deforestasi (Deforestation) = perubahan penggunaan lahan dari hutan menjadi penggunaan pertanian (cropland, pasture, perkebunan, dll.), baik karena aktivitas manusia atau proses lain. Tidak peduli apakah hutan sebelumnya dalam kondisi utuh (primary forest) atau sudah terdegradasi (degraded forest)
+                  Deforestasi (Deforestation) = perubahan penggunaan lahan dari hutan menjadi penggunaan pertanian 
+                  (cropland, pasture, perkebunan, dll.), baik karena aktivitas manusia atau proses lain. 
+                  Tidak peduli apakah hutan sebelumnya dalam kondisi utuh (primary forest) atau sudah terdegradasi 
+                  (degraded forest)
                   </li>
-                 
                 </ul>
               </p>
            </div>
           </div>
-
           <div class="flex-row">
-            
             <div class="flex-item flex-column">
               <p class="text">
                 <img class="image image-wrap-text" style="max-width: 300px;" src="img/whisp-logo.png" />
-               Metode analisis mengadopsi pendekatan dari <a target="_blank" href=https://github.com/forestdatapartnership/whisp>WHISP - OpenForis</a>, "What is in that plot / Apa yang ada dalam plot" adalah solusi sumber terbuka yang membantu memproduksi informasi pemantauan hutan yang relevan dan mendukung kepatuhan terhadap peraturan yang terkait dengan deforestasi, ditujukan untuk semua orang di sepanjang rantai pasokan komoditas.
-               
-              
-         
+               Metode analisis mengadopsi pendekatan dari <a target="_blank" href=https://github.com/forestdatapartnership/whisp>WHISP - OpenForis</a>, 
+               "What is in that plot" yaitu solusi sumber terbuka yang membantu memproduksi informasi pemantauan hutan yang relevan dan mendukung kepatuhan 
+               terhadap aturan deforestasi. Dengan pendekatan ini, diharapkan mampu memberikan gambaran kuantitatif mengenai keterkaitan 
+               rantai pasok kopi dengan deforestasi secara transparan dan dapat diaudit sesuai prinsip uji tuntas EUDR.
               </p>
             </div>
-            
           </div>
-
            <div class="flex-row">
             <div class="flex-item flex-column">
-     <br/>
-  
+             <br/>
              <h3 id="">Alur Kerja</h3>
               <iframe
                 class="iframe-in-body2"
                 src="alur.html"
                 scrolling="no"
               ></iframe>
-
-             
               <p class="text">
-
-                1. Pengumpulan dan pemeriksaan kualitas data plot kebun petani (Geodata) yang diverifikasi berdasarkan kriteria (titik koordinat untuk lahan &lt;4 hektare dan poligon untuk lahan ≥4 hektare), sumber data: 
+                1.Geodata
+               <br/>
+                Proses Pengumpulan dan pemeriksaan kualitas data plot kebun petani (Geodata) yang diverifikasi berdasarkan kriteria 
+                (koordinat untuk lahan &lt;4 hektare dan poligon untuk lahan ≥4 hektare), sumber data: 
                 <ul style="font-size:0.8em; line-height:1.4;">
                   <li>
                    Pemetaan lapangan (GPS /mobile).
@@ -343,10 +349,139 @@
                   </li>
                 </ul>
               </p>
+
+               <!--Start Tab-->
+          
+            <p class="text">
+        Berikut adalah update sementara dari geodata plot kebun di tiga Kecamatan [Bandar Negeri Semuong, Semaka, Wonosobo] yang telah di identifikasi, untuk saat ini masih dalam tahap pengumpulan geodata.
+            </p>
+            <div class="custom-tab" id="custom-tab">
+              <div class="custom-tab-menu center">
+                  <a class="custom-tab-menu-item active" data-content="table">Tabel</a>
+                <a class="custom-tab-menu-item" data-content="iframe">Peta</a>
+              </div>
+              <div class="custom-tab-content" data-content="table">
+                <p class="text text-center graph-title" style="font-size:1em; line-height:1.4;">
+                Hasil pengumpulan geodata (update sementara)
+                </p>
+                <div class="custom-table-container center add-top-margin-small">
+                  <table class="custom-table">
+                    <thead>
+                      <tr class="bg-color-gray">
+                        <th>Kecamatan</th>
+                        <th class="text-center">Koordinat</th>
+                        <th class="text-center">Poligon</th>
+                        <th class="text-center">Plot</th>
+                         <th class="text-center">Luas (ha)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>BNS</td>
+                        <td class="text-center">✔️</td>
+                        <td class="text-center">✔️</td>
+                        <td class="text-right">1.429</td>
+                        <td class="text-right">1.362</td>
+                      </tr>
+                      <!-- <tr class="bg-color-light-gray"> -->
+                      <tr>
+                        <td>Semaka</td>
+                        <td class="text-center">✔️</td>
+                        <td class="text-center">✔️</td>
+                        <td class="text-right">571</td>
+                        <td class="text-right">538</td>
+                      </tr>
+                      <tr>
+                        <td>Wonosobo</td>
+                        <td class="text-center">❌</td>
+                        <td class="text-center">❌</td>
+                        <td class="text-right">-</td>
+                        <td class="text-right">-</td>
+                      </tr>
+                
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td>TOTAL</td>
+                        <td class="text-center"></td>
+                        <td class="text-center"></td>
+                        <td class="text-right">2.000</td>
+                        <td class="text-right">1.900</td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+                <p class="text text-center graph-title" style="font-size:1em; line-height:1.4;">
+               Verifikasi geodata
+                </p>
+                 <div class="custom-table-container center add-top-margin-small">
+                  <table class="custom-table">
+                    <thead>
+                      <tr class="bg-color-gray">
+                        <th rowspan="2"  class="text-center">Kecamatan</th>
+                        <th colspan="2" class="text-center">Data Valid</th>  
+                          <th colspan="2" class="text-center">Data Drop*</th>
+                      </tr>
+                      <tr class="bg-color-gray2"> 
+                        <th class="text-center">Plot</th>
+                        <th class="text-center">Luas (ha)</th>
+                        <th class="text-center">Plot</th>
+                        <th class="text-center">Luas (ha)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>BNS</td>
+                        <td class="text-center">777</td>
+                        <td class="text-center">1.019</td>
+                        <td class="text-center">652</td>
+                         <td class="text-center">343</td>
+                      </tr>
+                     <!-- <tr class="bg-color-light-gray"> -->
+                      <tr>
+                        <td>Semaka</td>
+                        <td class="text-center">448</td>
+                        <td class="text-center">438</td>
+                        <td class="text-center">123</td>
+                         <td class="text-center">100</td>
+                      </tr>
+                      <tr>
+                        <td>Wonosobo</td>
+                        <td class="text-center">-</td>
+                        <td class="text-center">-</td>
+                        <td class="text-center">-</td>
+                         <td class="text-center">-</td>
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td>TOTAL</td>
+                        <td class="text-center">1225</td>
+                        <td class="text-center">1.457</td>
+                        <td class="text-center">775</td>
+                         <td class="text-center">443</td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+                <p style="font-size:0.8em; line-height:1.4;">
+                 *Data drop (geometry tidak valid / geometry duplikat / area berada diluar izin / area overlap & bersinggungan dengan WDPA / area overlap dengan zona konservasi, blok lindung)
+                </p>
+              </div>
+              <div class="custom-tab-content no-padding" data-content="iframe">
+                <!-- <p class="text text-center graph-title add-top-right-left-padding add-bottom-border">
+                  Title for the bottom iframe
+                </p> -->
+                <iframe class="iframe-in-tab" src="aoi.html"></iframe>
+              </div>
+            </div>
+        <!--End Tab-->
+           <br/>
               <p class="text">
-                2. Lapisan kontekstual adalah kumpulan data berupa raster/vektor yang digunakan untuk analisis deforestasi periode 2021–2025 menggunakan
-                sumber data publik yang tersedia (portal/layers yang diakses via API/unduh), seperti:
-            
+                  2.Lapisan Kontekstual
+               <br/>
+                Lapisan kontekstual adalah kumpulan data berupa raster/vektor yang digunakan untuk analisis deforestasi 
+                periode 2021–2025 menggunakan sumber data publik yang tersedia (portal/layers yang diakses via API/unduh), seperti:
                  <div style="display: flex; flex-wrap: wrap; gap: 20px;">
                     <!-- Kolom 1 -->
                     <div style="flex: 1 1 300px; padding:10px;">
@@ -362,7 +497,7 @@
                     <div style="flex: 1 1 300px; padding:10px;">
                     <p style="margin-top:0;">Lapisan Pendukung:</p>
                     <ul style="padding-left:20px; font-size:0.8em; line-height:1.4;">
-                    <li><a target="_blank" href="https://journal.ipb.ac.id/index.php/jpsl/article/view/52017">Peta Perkebunan Kopi Kabupaten Tanggamus (Fardinatri, et al)</a></li>
+                    <li><a target="_blank" href="https://journal.ipb.ac.id/index.php/jpsl/article/view/52017">Peta Indikatif Perkebunan Kopi Kabupaten Tanggamus (Fardinatri, et al)</a></li>
                     <li><a target="_blank" href="https://geoportal.menlhk.go.id/portal/apps/webappviewer/index.html?id=2ee8bdda1d714899955fccbe7fdf8468">Peta Penutupan Lahan Tahun 2020 (KLHK)</a></li>
                     <li><a target="_blank" href="https://geoportal.menlhk.go.id/portal/apps/webappviewer/index.html?id=2ee8bdda1d714899955fccbe7fdf8468">Peta Kawasan Hutan (KLHK)</a></li>
                     <li><a target="_blank" href="https://www.protectedplanet.net/en">World Database on Protected Areas (WDPA)</a></li>
@@ -371,14 +506,18 @@
                   </div>
               <p class="text">
                 <br/>
-                3. Pemrosesan data dan analisis menggunakan perangkat lunak ArcGis/QGIS dengan metode overlay poligon dan ekstraksi statistik zonal (menghitung
-                piksel yang relevan) dari serangkaian dataset publik untuk satu
-                set poligon (sebuah bidang lahan). Hasil analisis disajikan
-                dalam bentuk peta, tabel dan diagram.
+                  3. Analisi GIS
+               <br/>
+                Pemrosesan data dan analisis menggunakan perangkat lunak ArcGis/QGIS dengan metode overlay poligon dan ekstraksi statistik zonal 
+                (menghitung piksel yang relevan) dari serangkaian dataset publik untuk satu set poligon (sebuah bidang lahan). Hasil analisis disajikan
+                dalam bentuk tabel, diagram dan peta.
               </p>
                <p class="text">
                 <br/>
-                4. Penilaian risiko deforestasi berdasarkan informasi yang dihasilkan dari analisis GIS untuk mengklasifikasikan lahan ke dalam tiga tingkat risiko:</p>
+                  4. Penilaian Risiko
+               <br/>
+                Penilaian risiko deforestasi berdasarkan informasi yang dihasilkan dari analisis GIS untuk mengklasifikasikan lahan 
+                ke dalam tiga tingkat risiko:</p>
             </div>
           </div>
           <div class="flex-row">
@@ -474,7 +613,7 @@
          
                 <h3 id="Rantai">Rantai Pasokan Kopi</h3>
         
-                <h3 id="Risiko">Risiko Deforetasi</h3>
+                <h3 id="Risiko">Risiko Deforestasi</h3>
                 
              
             </div>

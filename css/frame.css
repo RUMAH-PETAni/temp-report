@@ -203,7 +203,7 @@ hr {
   transition: opacity 0.5s ease-in-out;
   -moz-transition: opacity 0.5s ease-in-out;
   -webkit-transition: opacity 0.5s ease-in-out;
-  /* font-family: "Open Sans", Helvetica, Arial, sans-serif; */
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
   font-family: "Roboto Mono", monospace;
   white-space: nowrap;
   display: flex;
@@ -800,6 +800,9 @@ ol.nested > li:before {
 .text-center {
   text-align: center;
 }
+.text-right {
+  text-align: right;
+}
 
 .iframe-container {
   position: absolute;
@@ -1081,6 +1084,10 @@ ol.nested > li:before {
 
 .custom-table tr.bg-color-gray {
   background-color: #dadada;
+}
+.custom-table tr.bg-color-gray2 {
+  background-color: #dadada;
+   border-top: 1px solid #666666;
 }
 
 .custom-table tr.bg-color-light-gray {
