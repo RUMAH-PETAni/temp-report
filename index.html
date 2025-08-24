@@ -281,21 +281,7 @@
                 Metodologi
               </h2>
               <hr />
-             
               <h3 id="">Ruang Lingkup</h3>
-              
-                            <p class="text">
-                <img class="image image-wrap-text" style="max-width: 300px;" src="img/analyst.png" />
-               Metode analisis mengadopsi pendekatan dari <a target="_blank" href=https://github.com/forestdatapartnership/whisp>WHISP - OpenForis</a>, 
-               yaitu solusi sumber terbuka yang membantu memproduksi informasi pemantauan hutan yang relevan dan mendukung kepatuhan 
-               terhadap aturan deforestasi.<br/> Dengan pendekatan konvergensi bukti, metode ini melibatkan:
-Menggunakan beberapa set data,
-Menggabungkan informasi untuk mendapatkan pemahaman yang lebih detail,
-Mengurangi dampak potensi kesalahan atau bias pada masing-masing sumber data.<br/><br/>
-Melalui pendekatan ini diharapkan mampu memberikan gambaran kuantitatif mengenai keterkaitan 
-rantai pasok kopi dengan deforestasi secara transparan dan dapat diaudit sesuai prinsip uji tuntas EUDR. 
-              </p>
-              
               <p class="text">
                 Definisi dari hutan dan deforestasi yang digunakan dalam kajian ini mengacu sesuai dengan peraturan EUDR:
                 <ul style="font-size:0.8em; line-height:1.4;">
@@ -323,12 +309,27 @@ rantai pasok kopi dengan deforestasi secara transparan dan dapat diaudit sesuai 
                   </li>
                 </ul>
               </p>
-          
+
+              <p class="text" >
+              <span style="display:inline-block; float:left; margin:0 30px 15px 0; text-align:left; max-width:400px; width:100%;">
+                <img src="img/analis.png" alt="Supply Chain" style="display:block; width:100%; height:auto;"/>
+                <span style="display:block; font-size:13px; color:#555; margin-top:4px; text-align:left;">
+       
+                </span>
+              </span>
+              Metode analisis di adopsi dari <a target="_blank" href=https://github.com/forestdatapartnership/whisp>WHISP - OpenForis</a>, 
+              solusi sumber terbuka yang membantu memproduksi informasi pemantauan hutan yang relevan untuk mendukung kepatuhan 
+              terhadap aturan deforestasi. Metode ini menggunakan beberapa set data dan informasi untuk mendapatkan pemahaman yang lebih detail, serta
+              mengurangi dampak potensi kesalahan pada masing-masing sumber data. Sehingga memberikan gambaran kuantitatif terkait 
+              rantai pasok dan deforestasi secara transparan dan dapat diaudit sesuai prinsip uji tuntas EUDR. 
+              </p>
+                            
 
             </div>
           </div>
            <div class="flex-row">
             <div class="flex-item flex-column">
+              <br/>
                <iframe class="iframe-in-body" src="aoi.html"></iframe>
              <br/>
              <h3 id="">Alur Kerja</h3>
@@ -341,7 +342,7 @@ rantai pasok kopi dengan deforestasi secara transparan dan dapat diaudit sesuai 
                 1.Geodata
                <br/>
                 Proses Pengumpulan dan pemeriksaan kualitas data plot kebun petani (geodata) yang diverifikasi berdasarkan kriteria 
-                (koordinat untuk lahan &lt;4 hektare dan poligon untuk lahan ≥4 hektare), sumber data: 
+                (koordinat untuk lahan &lt;4 hektare dan poligon untuk lahan ≥4 hektare) geometry valid, status lahan legal/berizin, tidak tumpang tindih/beririsan dengan area konservasi, WDPA.<br/>Sumber data diperoleh dari: 
                 <ul style="font-size:0.8em; line-height:1.4;">
                   <li>
                    Pemetaan lapangan (GPS /mobile).
@@ -356,15 +357,15 @@ rantai pasok kopi dengan deforestasi secara transparan dan dapat diaudit sesuai 
               </p>
 
                <!--Start Tab-->
-          <p class="text"">
+          <p class="text" style="font-size:0.8em; line-height:1.4;">
         Berikut adalah hasil verifikasi awal dari plot kebun kopi (geodata) di tiga Kecamatan [Bandar Negeri Semuong, Semaka, Wonosobo], untuk saat ini masih dalam tahap proses pengumpulan geodata.
             </p>
             
             <div class="custom-tab" id="custom-tab">
-              <div class="custom-tab-menu center">
-                  <a class="custom-tab-menu-item active" data-content="table">Tabel</a>
-                 <a class="custom-tab-menu-item" data-content="iframe">Diagram</a> 
-                <a class="custom-tab-menu-item" data-content="iframe2">Peta</a>
+              <div class="custom-tab-menu center" >
+                  <a class="custom-tab-menu-item active" data-content="table" style="font-size:0.8em; line-height:1.4;">Tabel</a>
+                 <a class="custom-tab-menu-item" data-content="iframe" style="font-size:0.8em; line-height:1.4;">Diagram</a> 
+                <a class="custom-tab-menu-item" data-content="iframe2" style="font-size:0.8em; line-height:1.4;">Peta</a>
               </div>
               <div class="custom-tab-content" data-content="table">
                
@@ -472,7 +473,7 @@ rantai pasok kopi dengan deforestasi secara transparan dan dapat diaudit sesuai 
                   </table>
                 </div>
                 <p style="font-size:0.8em; line-height:1.4;">
-                 *data drop (geometry duplikat / tidak valid | area berada diluar izin PS | area tumpang tindih / beririsan dengan zona konservasi, WDPA)
+                 *data drop (geometry duplikat/tidak valid | area berada diluar izin PS | area tumpang tindih/beririsan dengan zona konservasi, blok lindung, WDPA)
                 </p>
               </div>
               <div class="custom-tab-content no-padding" data-content="iframe">
@@ -485,7 +486,7 @@ rantai pasok kopi dengan deforestasi secara transparan dan dapat diaudit sesuai 
                 <!-- <p class="text text-center graph-title add-top-right-left-padding add-bottom-border">
                   Title for the bottom iframe
                 </p> -->
-                <iframe class="iframe-in-tab" src="geodata.html"></iframe>
+                <iframe class="iframe-in-tab" src="geodatamap.html"></iframe>
               </div>
             </div>
         <!--End Tab-->
@@ -494,7 +495,7 @@ rantai pasok kopi dengan deforestasi secara transparan dan dapat diaudit sesuai 
                   2.Lapisan Kontekstual
                <br/>
                 Lapisan kontekstual adalah kumpulan data berupa raster/vektor yang digunakan untuk analisis deforestasi 
-                periode 2021–2025 yang bersumber dari data publik yang tersedia (portal/layers yang diakses via API/unduh), seperti:
+                periode 2021–2025 yang bersumber dari data publik yang tersedia melalui (portal/layers yang diakses via API/unduh), seperti:
                  <div style="display: flex; flex-wrap: wrap; gap: 20px;">
                     <!-- Kolom 1 -->
                     <div style="flex: 1 1 300px; padding:10px;">
@@ -511,7 +512,7 @@ rantai pasok kopi dengan deforestasi secara transparan dan dapat diaudit sesuai 
                     <p style="margin-top:0;">Lapisan Pendukung:</p>
                     <ul style="padding-left:20px; font-size:0.8em; line-height:1.4;">
                     <li><a target="_blank" href="https://journal.ipb.ac.id/index.php/jpsl/article/view/52017">Peta Indikatif Perkebunan Kopi Kabupaten Tanggamus (Fardinatri, et al)</a></li>
-                    <li><a target="_blank" href="https://geoportal.menlhk.go.id/portal/apps/webappviewer/index.html?id=2ee8bdda1d714899955fccbe7fdf8468">Peta Penutupan Lahan Tahun 2020 (KLHK)</a></li>
+                    <!-- <li><a target="_blank" href="https://geoportal.menlhk.go.id/portal/apps/webappviewer/index.html?id=2ee8bdda1d714899955fccbe7fdf8468">Peta Penutupan Lahan Tahun 2020 (KLHK)</a></li> -->
                     <li><a target="_blank" href="https://geoportal.menlhk.go.id/portal/apps/webappviewer/index.html?id=2ee8bdda1d714899955fccbe7fdf8468">Peta Kawasan Hutan (KLHK)</a></li>
                     <li><a target="_blank" href="https://www.protectedplanet.net/en">World Database on Protected Areas (WDPA)</a></li>
                     </ul>
@@ -519,11 +520,11 @@ rantai pasok kopi dengan deforestasi secara transparan dan dapat diaudit sesuai 
                   </div>
               <p class="text">
                 <br/>
-                  3. Analisi GIS
+                  3. Analisis GIS
                <br/>
                 Pemrosesan data dan analisis menggunakan perangkat lunak ArcGis/QGIS dengan metode overlay poligon dan ekstraksi statistik zonal 
                 (menghitung piksel yang relevan) dari serangkaian dataset publik untuk satu set poligon (sebuah bidang lahan). Hasil analisis disajikan
-                dalam bentuk tabel, diagram dan peta.
+                dalam bentuk peta | tabel | diagram.
               </p>
                <p class="text">
                 <br/>
@@ -621,11 +622,24 @@ rantai pasok kopi dengan deforestasi secara transparan dan dapat diaudit sesuai 
           <div class="flex-row">
             <div class="flex-item flex-column" id="Analisis">
               <br />
-              <h2 id="" class="no-top-margin">Hasil Analisis</h2>
+              <h2 id="" class="no-top-margin">Hasil Analisis Sementara</h2>
               <hr />
          
                 <h3 id="Rantai">Rantai Pasokan Kopi</h3>
-        
+            <p class="text">
+            <span style="display:inline-block; float:left; margin:0 30px 15px 0; text-align:left; max-width:400px; width:100%;">
+              <img src="img/doklap.png" alt="doklap" style="display:block; width:100%; height:auto;"/>
+              <span style="display:block; font-size:10px; color:#555; margin-top:4px; text-align:right;">
+                Dok. lapangan (Juli, 2025)
+              </span>
+            </span>
+              Proses penelusuran awal untuk rantai pasokan kopi PT. Asia Makmur di wilayah kajian dimulai dengan melakukan crosscheck 
+              hasil verifikasi plot kebun kopi (geodata valid) kepada kolektor kopi di Kabupaten Tanggamus yaitu Gudang Mujur Jaya 
+              yang berlokasi di Kecamatan Kota Agung dan beberapa subkolektor dari tiga kecamatan (Bandar Negeri Semuong, Semaka, Wonosobo)
+            <br/>
+           
+            Tahap lanjutan untuk penelusuran pada pembeli lokal dan petani pemasok pada tingkat Desa untuk saat ini sedang dalam proses follow up. 
+            </p>
                 <h3 id="Risiko">Risiko Deforestasi</h3>
                 
              
@@ -789,7 +803,7 @@ rantai pasok kopi dengan deforestasi secara transparan dan dapat diaudit sesuai 
                     >http://webgis.menlhk.go.id/</a
                   >
                  </li>
-                <li>
+                <!-- <li>
                 Kementerian Lingkungan Hidup dan Kehutanan (KLHK). (2020). Peta Penutupan Lahan Indonesia Tahun 2020 [Dataset]. Direktorat Inventarisasi dan Pemantauan Sumber Daya Hutan, KLHK.      
                 <a
                     class="break-long-url"
@@ -797,7 +811,7 @@ rantai pasok kopi dengan deforestasi secara transparan dan dapat diaudit sesuai 
                     href="http://webgis.menlhk.go.id/"
                     >http://webgis.menlhk.go.id/</a
                   >
-                 </li>
+                 </li> -->
               
                 <li>
                 UNEP-WCMC, & IUCN. (2025). World Database on Protected Areas (WDPA) [Dataset]. UNEP-WCMC & IUCN. 

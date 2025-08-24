@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-gesture-handling/dist/leaflet-gesture-handling.min.css"/>
+  <style>
+    body { font-family: "Roboto Mono", monospace; margin: 0; padding: 0; display: flex; flex-direction: column; height: 100vh; }
+    #map { flex: 1; width: 100%; }
+    .legend {
+      position: absolute;
+      bottom: 20px; left: 10px;
+      background: white; padding: 6px 12px;
+      border-radius: 4px; font-size: 14px;
+      min-width: 160px; white-space: nowrap;
+    }
+    .legend-item { display: flex; align-items: center; margin-bottom: 4px; }
+    .legend-color { width: 20px; height: 20px; margin-right: 8px; border: 1px solid #555; }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet-gesture-handling"></script>
+  <script>
+    const map = L.map("map", { minZoom: 5, maxZoom: 20, gestureHandling: true }).setView([-5.5, 105.3], 6);
+
+    const osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: '&copy; OpenStreetMap contributors', maxZoom: 19
+    }).addTo(map);
+
+    const satellite = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {
+      attribution: "Tiles &copy; Esri — Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community"
+    });
+
+    const baseMaps = { "OSM Standar": osm, "Citra Satelit (Esri)": satellite };
+    const layerControl = L.control.layers(baseMaps).addTo(map);
+
+    const aoiUrl = "https://raw.githubusercontent.com/RUMAH-PETAni/Map_Animasi/main/AOI.geojson";
+    const defaultStyle = { color: "red", weight: 2, fillOpacity: 0.2 };
+    const highlightStyle = { color: "red", weight: 3, fillOpacity: 0.5 };
+
+    let aoiLayer, validLayer;
+    const MIN_START_ZOOM = 10;
+
+    function addAOI() {
+      return fetch(aoiUrl).then(res => res.json()).then(data => {
+        aoiLayer = L.geoJSON(data, {
+          style: defaultStyle,
+          onEachFeature: (feature, layer) => {
+            let popupContent = "";
+            if (feature.properties) {
+              popupContent = Object.entries(feature.properties)
+                .filter(([k]) => k && k.toLowerCase() !== "area")
+                .map(([k, v]) => `<b>${k}:</b> ${v}`)
+                .join("<br>");
+            }
+            if (popupContent) layer.bindPopup(popupContent);
+            layer.on({
+              mouseover: e => e.target.setStyle(highlightStyle),
+              mouseout: e => aoiLayer.resetStyle(e.target)
+            });
+          }
+        }).addTo(map);
+        map.fitBounds(aoiLayer.getBounds(), { padding: [24,24], maxZoom: MIN_START_ZOOM });
+        map.setMaxBounds(aoiLayer.getBounds());
+        layerControl.addOverlay(aoiLayer, "Area of Interest");
+        aoiLayer.bringToBack();
+      });
+    }
+
+    // Geodata Valid
+    const validUrl = "https://raw.githubusercontent.com/RUMAH-PETAni/ekspor_am/main/Geodata_Valid.geojson";
+    const validStyle = { color: "blue", weight: 2, fillOpacity: 0.4 };
+
+    function addValid() {
+      return fetch(validUrl).then(res => res.json()).then(data => {
+        validLayer = L.geoJSON(data, { style: validStyle }).addTo(map);
+        layerControl.addOverlay(validLayer, "Geodata Valid");
+      });
+    }
+
+    // Drop (outline black only)
+    const dropUrl = "https://raw.githubusercontent.com/RUMAH-PETAni/ekspor_am/main/Geodata_Drop.geojson";
+    const dropStyle = { color: "black", weight: 1, fill: false };
+
+    function addDrop() {
+      return fetch(dropUrl).then(res => res.json()).then(data => {
+        const groups = {};
+        data.features.forEach(f => {
+          const status = f.properties.STATUS ? f.properties.STATUS.toLowerCase() : "tanpa status";
+          if (!groups[status]) groups[status] = [];
+          groups[status].push(f);
+        });
+        Object.keys(groups).forEach(status => {
+          const layer = L.geoJSON({ type: "FeatureCollection", features: groups[status] }, { style: dropStyle }).addTo(map);
+          layerControl.addOverlay(layer, `Drop - ${status}`);
+          layer.bringToBack();
+        });
+      });
+    }
+
+    addAOI().then(addValid).then(addDrop);
+
+    // Legend
+    const legend = L.control({ position: "bottomleft" });
+    legend.onAdd = () => {
+      const div = L.DomUtil.create("div", "legend");
+      div.innerHTML = `
+        <div class="legend-item"><div class="legend-color" style="background: red; opacity:0.5;"></div> Area of Interest</div>
+        <div class="legend-item"><div class="legend-color" style="background: blue;"></div> Geodata Valid</div>
+        <div class="legend-item"><div class="legend-color" style="background: white; border:1px solid black;"></div> Drop (status)</div>`;
+      return div;
+    };
+    legend.addTo(map);
+  </script>
+</body>
+</html>
