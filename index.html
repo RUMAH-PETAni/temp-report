@@ -281,7 +281,7 @@
                 Metodologi
               </h2>
               <hr />
-              <iframe class="iframe-in-body" src="aoi.html"></iframe>
+             
               <h3 id="">Ruang Lingkup</h3>
               
                             <p class="text">
@@ -329,6 +329,7 @@ rantai pasok kopi dengan deforestasi secara transparan dan dapat diaudit sesuai 
           </div>
            <div class="flex-row">
             <div class="flex-item flex-column">
+               <iframe class="iframe-in-body" src="aoi.html"></iframe>
              <br/>
              <h3 id="">Alur Kerja</h3>
               <iframe
@@ -339,7 +340,7 @@ rantai pasok kopi dengan deforestasi secara transparan dan dapat diaudit sesuai 
               <p class="text">
                 1.Geodata
                <br/>
-                Proses Pengumpulan dan pemeriksaan kualitas data plot kebun petani (Geodata) yang diverifikasi berdasarkan kriteria 
+                Proses Pengumpulan dan pemeriksaan kualitas data plot kebun petani (geodata) yang diverifikasi berdasarkan kriteria 
                 (koordinat untuk lahan &lt;4 hektare dan poligon untuk lahan ≥4 hektare), sumber data: 
                 <ul style="font-size:0.8em; line-height:1.4;">
                   <li>
@@ -355,22 +356,23 @@ rantai pasok kopi dengan deforestasi secara transparan dan dapat diaudit sesuai 
               </p>
 
                <!--Start Tab-->
-          
+          <p class="text"">
+        Berikut adalah hasil verifikasi awal dari plot kebun kopi (geodata) di tiga Kecamatan [Bandar Negeri Semuong, Semaka, Wonosobo], untuk saat ini masih dalam tahap proses pengumpulan geodata.
+            </p>
             
             <div class="custom-tab" id="custom-tab">
               <div class="custom-tab-menu center">
                   <a class="custom-tab-menu-item active" data-content="table">Tabel</a>
-                <a class="custom-tab-menu-item" data-content="iframe">Peta</a>
+                 <a class="custom-tab-menu-item" data-content="iframe">Diagram</a> 
+                <a class="custom-tab-menu-item" data-content="iframe2">Peta</a>
               </div>
               <div class="custom-tab-content" data-content="table">
-                <p class="text" style="font-size:0.8em; line-height:1.4;">
-        Berikut adalah update sementara dari geodata plot kebun di tiga Kecamatan [Bandar Negeri Semuong, Semaka, Wonosobo] yang telah di identifikasi, untuk saat ini masih dalam tahap proses pengumpulan geodata.
-            </p>
-                <p class="text text-center graph-title" style="font-size:1em; line-height:1.4;">
-                Hasil pengumpulan geodata (update Agustus 2025)
+               
+                <p class="text text-center graph-title" style="font-size:0.8em; line-height:1.4;">
+                Pengumpulan geodata (update Agustus 2025)
                 </p>
                 <div class="custom-table-container center add-top-margin-small">
-                  <table class="custom-table">
+                  <table class="custom-table" style="font-size:0.8em; line-height:1.4;">
                     <thead>
                       <tr class="bg-color-gray">
                         <th>Kecamatan</th>
@@ -416,11 +418,11 @@ rantai pasok kopi dengan deforestasi secara transparan dan dapat diaudit sesuai 
                     </tfoot>
                   </table>
                 </div>
-                <p class="text text-center graph-title" style="font-size:1em; line-height:1.4;">
-               Hasil verifikasi geodata
+                <p class="text text-center graph-title" style="font-size:0.8em; line-height:1.4;">
+               Hasil verifikasi
                 </p>
                  <div class="custom-table-container center add-top-margin-small">
-                  <table class="custom-table">
+                  <table class="custom-table" style="font-size:0.8em; line-height:1.4;">
                     <thead>
                       <tr class="bg-color-gray">
                         <th rowspan="2"  class="text-center">Kecamatan</th>
@@ -461,7 +463,7 @@ rantai pasok kopi dengan deforestasi secara transparan dan dapat diaudit sesuai 
                     <tfoot>
                       <tr>
                         <td>TOTAL</td>
-                        <td class="text-right">1225</td>
+                        <td class="text-right">1.225</td>
                         <td class="text-right">1.457</td>
                         <td class="text-right">775</td>
                          <td class="text-right">443</td>
@@ -470,10 +472,16 @@ rantai pasok kopi dengan deforestasi secara transparan dan dapat diaudit sesuai 
                   </table>
                 </div>
                 <p style="font-size:0.8em; line-height:1.4;">
-                 *Data drop (geometry tidak valid / geometry duplikat / area berada diluar izin / area overlap & bersinggungan dengan WDPA / area overlap dengan zona konservasi, blok lindung)
+                 *data drop (geometry duplikat / tidak valid | area berada diluar izin PS | area tumpang tindih / beririsan dengan zona konservasi, WDPA)
                 </p>
               </div>
               <div class="custom-tab-content no-padding" data-content="iframe">
+                <!-- <p class="text text-center graph-title add-top-right-left-padding add-bottom-border">
+                  Title for the bottom iframe
+                </p> -->
+                <iframe class="iframe-in-tab" src="pie_chart1.html"   scrolling="no"></iframe>
+              </div>
+              <div class="custom-tab-content no-padding" data-content="iframe2">
                 <!-- <p class="text text-center graph-title add-top-right-left-padding add-bottom-border">
                   Title for the bottom iframe
                 </p> -->

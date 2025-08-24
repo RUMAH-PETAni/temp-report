@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pie Chart Interaktif – Distribusi Luas Plot</title>
+  <style>
+    :root { --bg:#ffffff; --card:#fdfdfd; --text:#222222; --muted:#555555; }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:'Roboto Mono', monospace;background:var(--bg);color:var(--text)}
+    .wrap{width:100%;margin:0 auto;padding:6px;background:transparent;border:none;box-shadow:none}
+    .card{background:var(--card);border:none;border-radius:10px;box-shadow:none;padding:8px}
+    h1{font-size:14px;font-weight:normal;margin:0 0 6px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;text-align:center}
+    .sub{color:var(--muted);font-size:11px;margin-bottom:6px}
+    .grid{display:flex;flex-direction:row;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap}
+    select{background:#f0f0f0;color:#222;border:1px solid #ccc;padding:3px 8px;border-radius:4px;cursor:pointer;font-family:'Roboto Mono', monospace;font-size:11px}
+    .legend{background:transparent;border:none;padding:6px;flex:0 0 220px}
+    .legend h3{margin:0 0 6px;font-size:11px;color:#333;font-weight:normal}
+    .legend ul{list-style:none;margin:0;padding:0;display:grid;gap:3px}
+    .legend li{display:flex;align-items:center;gap:6px;font-size:11px;color:#333;font-weight:normal}
+    .swatch{width:10px;height:10px;border-radius:2px;display:inline-block}
+    .footer{color:var(--muted);font-size:11px;margin-top:6px}
+    .chart-container{position:relative;width:100%;max-width:280px;margin:auto}
+    canvas{width:100% !important;height:auto !important;}
+
+    /* Responsive: legend pindah ke bawah pada layar kecil */
+    @media (max-width: 600px) {
+      h1 {justify-content:flex-start;text-align:left;}
+      .grid {flex-direction:column;align-items:flex-start;}
+      .legend {width:100%;max-width:280px;margin-top:-40px;align-self:flex-start}
+      .chart-container{max-width:220px}
+    }
+
+    /* Versi desktop: perbesar sedikit */
+    @media (min-width: 601px) {
+      h1 {font-size:16px;}
+      .legend li, .legend h3, .footer, select {font-size:12px;}
+      .chart-container{max-width:320px}
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1 style="font-size:0.8em; line-height:1.4;">
+        Distribusi Luas Plot: Valid vs Drop per Kecamatan
+        <select id="labelMode">
+          <option value="percent" selected>Persentase</option>
+          <option value="value">Nilai (ha)</option>
+        </select>
+      </h1>
+      <div class="grid">
+        <div class="chart-container">
+          <canvas id="pieChart" aria-label="Pie chart distribusi luas plot" role="img"></canvas>
+        </div>
+        <div class="legend">
+          <h3>Rincian Data</h3>
+          <ul id="legendList"></ul>
+          <div class="footer">Total luas: <span id="totalLuas">–</span> ha</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script>
+    const dataItems = [
+      { label: 'BNS – Valid', value: 1019, color: '#4CAF50', drop: false},
+      { label: 'BNS – Drop',  value: 343,  color: '#4CAF50', drop: true},
+      { label: 'Semaka – Valid', value: 438, color: '#2196F3', drop: false},
+      { label: 'Semaka – Drop',  value: 100, color: '#2196F3', drop: true}
+    ];
+
+    const total = dataItems.reduce((s,d)=>s+d.value,0);
+    document.getElementById('totalLuas').textContent = total.toLocaleString('id-ID');
+
+    const labels = dataItems.map(d=>d.label);
+    const values = dataItems.map(d=>d.value);
+
+    function makePattern(color) {
+      const canvas = document.createElement('canvas');
+      canvas.width = 4;
+      canvas.height = 4;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = 'white';
+      ctx.fillRect(0, 0, 4, 4);
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(0,4);
+      ctx.lineTo(4,0);
+      ctx.stroke();
+      return ctx.createPattern(canvas, 'repeat');
+    }
+
+    const backgrounds = dataItems.map(d => d.drop ? makePattern(d.color) : d.color);
+
+    const ctx = document.getElementById('pieChart');
+    const chart = new Chart(ctx, {
+      type: 'pie',
+      data: { labels, datasets: [{ data: values, backgroundColor: backgrounds }] },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        aspectRatio: 1,
+        plugins: {
+          tooltip: {
+            callbacks: {
+              label: (ctx) => {
+                const v = ctx.parsed; const pct = (v/total*100).toFixed(1);
+                return `${ctx.label}: ${v.toLocaleString('id-ID')} ha (${pct}%)`;
+              }
+            }
+          },
+          legend: { display: false },
+          title: { display: false }
+        }
+      }
+    });
+
+    const legend = document.getElementById('legendList');
+    function renderLegend(mode = 'percent'){
+      legend.innerHTML = '';
+      dataItems.forEach((d, i) => {
+        const li = document.createElement('li');
+        const sw = document.createElement('span');
+        sw.className = 'swatch';
+        if(d.drop){
+          sw.style.backgroundImage = 'repeating-linear-gradient(135deg, '+d.color+' 0px, '+d.color+' 1px, white 1px, white 2px)';
+          sw.style.backgroundColor = 'white';
+        } else {
+          sw.style.background = d.color;
+        }
+        const pct = (d.value/total*100);
+        const text = mode === 'value'
+          ? `${d.label}: ${d.value.toLocaleString('id-ID')} ha`
+          : `${d.label}: ${pct.toFixed(1)}%`;
+        li.appendChild(sw);
+        const t = document.createTextNode(' ' + text);
+        li.appendChild(t);
+        legend.appendChild(li);
+      });
+    }
+    renderLegend('percent');
+
+    document.getElementById('labelMode').addEventListener('change', (e) => {
+      const mode = e.target.value;
+      renderLegend(mode);
+    });
+  </script>
+</body>
+</html>
