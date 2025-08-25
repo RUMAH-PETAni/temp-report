@@ -156,6 +156,7 @@
 
 .custom-tab .custom-tab-menu-item.active {
   background-color: #ccc;
+  display: flex;
 }
 
 .custom-tab .custom-tab-content {

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-gesture-handling/dist/leaflet-gesture-handling.min.css"/>
+  <style>
+    body { font-family: "Roboto Mono", monospace; margin: 0; padding: 0; display: flex; flex-direction: column; height: 100vh; }
+    #map { flex: 1; width: 100%; }
+    .legend {
+      position: absolute;
+      bottom: 20px; left: 10px;
+      background: white; padding: 6px 12px;
+      border-radius: 4px; font-size: 14px;
+      min-width: 160px; white-space: nowrap;
+    }
+    .legend-item { display: flex; align-items: center; margin-bottom: 4px; }
+    .legend-color-box { width: 20px; height: 20px; margin-right: 8px; }
+    .legend-marker { width: 20px; height: 20px; background: url('https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png') no-repeat center center; background-size: contain; margin-right: 8px; }
+    .legend-line { width: 20px; height: 2px; background: repeating-linear-gradient(to right, black, black 4px, transparent 4px, transparent 8px); margin-right: 8px; }
+    .legend-aoi { background: red; opacity:0.5; border: 1px solid red; }
+    .legend-valid { background: blue; border: 1px solid blue; }
+
+    /* Responsive legend scaling for mobile */
+    @media (max-width: 768px) {
+      .legend { transform: scale(0.5); transform-origin: bottom left; }
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet-gesture-handling"></script>
+  <script>
+    const map = L.map("map", { minZoom: 5, maxZoom: 20, gestureHandling: true }).setView([-5.5, 105.3], 6);
+
+    const osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: '&copy; OpenStreetMap contributors', maxZoom: 19
+    }).addTo(map);
+
+    const satellite = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {
+      attribution: "Tiles &copy; Esri — Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community"
+    });
+
+    const baseMaps = { "OSM Standar": osm, "Citra Satelit (Esri)": satellite };
+    const layerControl = L.control.layers(baseMaps).addTo(map);
+
+    const aoiUrl = "https://raw.githubusercontent.com/RUMAH-PETAni/Map_Animasi/main/AOI.geojson";
+    const defaultStyle = { color: "red", weight: 2, fillOpacity: 0.2 };
+    const highlightStyle = { color: "red", weight: 3, fillOpacity: 0.5 };
+
+    let aoiLayer, validLayer, supplyLayer;
+    const MIN_START_ZOOM = 10;
+
+    function addAOI() {
+      return fetch(aoiUrl).then(res => res.json()).then(data => {
+        aoiLayer = L.geoJSON(data, {
+          style: defaultStyle,
+          onEachFeature: (feature, layer) => {
+            let popupContent = "";
+            if (feature.properties) {
+              popupContent = Object.entries(feature.properties)
+                .filter(([k]) => k && k.toLowerCase() !== "area")
+                .map(([k, v]) => `<b>${k}:</b> ${v}`)
+                .join("<br>");
+            }
+            if (popupContent) layer.bindPopup(popupContent);
+            layer.on({
+              mouseover: e => e.target.setStyle(highlightStyle),
+              mouseout: e => aoiLayer.resetStyle(e.target)
+            });
+          }
+        }).addTo(map);
+        map.fitBounds(aoiLayer.getBounds(), { padding: [24,24], maxZoom: MIN_START_ZOOM });
+        map.setMaxBounds(aoiLayer.getBounds());
+        layerControl.addOverlay(aoiLayer, "Area of Interest");
+        aoiLayer.bringToBack();
+      });
+    }
+
+    // Geodata Valid → Kebun Pemasok
+    const validUrl = "https://raw.githubusercontent.com/RUMAH-PETAni/ekspor_am/main/Geodata_Valid.geojson";
+    const validStyle = { color: "blue", weight: 2, fillOpacity: 0.4 };
+
+    function addValid() {
+      return fetch(validUrl).then(res => res.json()).then(data => {
+        validLayer = L.geoJSON(data, { style: validStyle }).addTo(map);
+        layerControl.addOverlay(validLayer, "Kebun Pemasok");
+      });
+    }
+
+    // Supply Layer → Titik Rantai Pasokan
+    const supplyUrl = "https://raw.githubusercontent.com/RUMAH-PETAni/ekspor_am/main/Geodata_Supply.geojson?raw=true";
+    const supplyStyle = { color: "orange", weight: 2, fillOpacity: 0.4 };
+
+    function addSupply() {
+      return fetch(supplyUrl).then(res => res.json()).then(data => {
+        supplyLayer = L.geoJSON(data, {
+          style: supplyStyle,
+          onEachFeature: (feature, layer) => {
+            let popupContent = "";
+            if (feature.properties) {
+              popupContent = Object.entries(feature.properties)
+                .map(([k, v]) => `<b>${k}:</b> ${v}`)
+                .join("<br>");
+            }
+            if (popupContent) layer.bindPopup(popupContent);
+          }
+        }).addTo(map);
+        // sesuaikan restriction map agar include titik rantai pasokan
+        const combinedBounds = supplyLayer.getBounds().extend(aoiLayer.getBounds());
+        map.fitBounds(combinedBounds, { padding: [24,24], maxZoom: MIN_START_ZOOM });
+        map.setMaxBounds(combinedBounds);
+
+        // jika mobile, fokus ke tengah AOI
+        if (window.innerWidth <= 768) {
+          const centerAOI = aoiLayer.getBounds().getCenter();
+          map.setView(centerAOI, MIN_START_ZOOM);
+        }
+
+        layerControl.addOverlay(supplyLayer, "Titik Rantai Pasokan");
+      });
+    }
+
+    // Arc Lines → Jalur Distribusi
+    function addArcLines() {
+      const mujurJaya = [-5.493413, 104.621793];
+      const asiaMakmur = [-5.437538, 105.322862];
+      const sarwoEdi = [-5.506207, 104.495528];
+      const supriyanto = [-5.497149, 104.444938];
+      const tasin = [-5.465715, 104.455077];
+      const ekaSaputra = [-5.444693, 104.459511];
+      const buyung = [-5.480991, 104.548931];
+
+      const tujuan = [
+        { nama: "Buyung", coord: buyung },
+        { nama: "Eka Saputra", coord: ekaSaputra },
+        { nama: "Joni", coord: [-5.390445, 104.416172] },
+        { nama: "Jumaroh", coord: [-5.421590, 104.457941] },
+        { nama: "Sarwo Edi", coord: sarwoEdi },
+        { nama: "Sunarti", coord: [-5.422396, 104.457501] }
+      ];
+
+      // Arc line Asia Makmur → Mujur Jaya (Kolektor → Eksportir)
+      const midLatAM = (asiaMakmur[0] + mujurJaya[0]) / 2 + 0.1;
+      const midLngAM = (asiaMakmur[1] + mujurJaya[1]) / 2;
+      const arcAM = L.curve(
+        [ 'M', asiaMakmur, 'Q', [midLatAM, midLngAM], mujurJaya ],
+        { color: 'black', weight: 3, dashArray: '5,5' }
+      ).addTo(map);
+      layerControl.addOverlay(arcAM, "Kolektor → Eksportir");
+
+      // Group arcs Mujur Jaya → Sub Kolektor
+      const subCollectorGroup = L.layerGroup();
+      tujuan.forEach(dest => {
+        const midLat = (mujurJaya[0] + dest.coord[0]) / 2 + 0.1;
+        const midLng = (mujurJaya[1] + dest.coord[1]) / 2;
+        const arc = L.curve(
+          [ 'M', mujurJaya, 'Q', [midLat, midLng], dest.coord ],
+          { color: 'black', weight: 2, dashArray: '4,4' }
+        ).addTo(subCollectorGroup);
+      });
+      subCollectorGroup.addTo(map);
+      layerControl.addOverlay(subCollectorGroup, "Sub kolektor → Kolektor");
+
+      // Group arcs Pembeli Lokal → Sub kolektor
+      const localBuyerGroup = L.layerGroup();
+
+      const midLatT = (sarwoEdi[0] + tasin[0]) / 2 + 0.05;
+      const midLngT = (sarwoEdi[1] + tasin[1]) / 2;
+      const arcT = L.curve(
+        [ 'M', sarwoEdi, 'Q', [midLatT, midLngT], tasin ],
+        { color: 'black', weight: 2, dashArray: '4,4' }
+      ).addTo(localBuyerGroup);
+
+      const midLatS = (sarwoEdi[0] + supriyanto[0]) / 2 + 0.05;
+      const midLngS = (sarwoEdi[1] + supriyanto[1]) / 2;
+      const arcS = L.curve(
+        [ 'M', sarwoEdi, 'Q', [midLatS, midLngS], supriyanto ],
+        { color: 'black', weight: 2, dashArray: '4,4' }
+      ).addTo(localBuyerGroup);
+
+      const customCoord = [-5.371681, 104.476637];
+      const midLatC = (sarwoEdi[0] + customCoord[0]) / 2 + 0.05;
+      const midLngC = (sarwoEdi[1] + customCoord[1]) / 2;
+      const arcC = L.curve(
+        [ 'M', sarwoEdi, 'Q', [midLatC, midLngC], customCoord ],
+        { color: 'black', weight: 2, dashArray: '4,4' }
+      ).addTo(localBuyerGroup);
+
+      const customEka = [-5.240707, 104.2382976];
+      const midLatE = (ekaSaputra[0] + customEka[0]) / 2 + 0.05;
+      const midLngE = (ekaSaputra[1] + customEka[1]) / 2;
+      const arcE = L.curve(
+        [ 'M', ekaSaputra, 'Q', [midLatE, midLngE], customEka ],
+        { color: 'black', weight: 2, dashArray: '4,4' }
+      ).addTo(localBuyerGroup);
+
+      const customBuyung = [-4.8099852, 103.9234496];
+      const midLatB = (buyung[0] + customBuyung[0]) / 2 + 0.05;
+      const midLngB = (buyung[1] + customBuyung[1]) / 2;
+      const arcB = L.curve(
+        [ 'M', buyung, 'Q', [midLatB, midLngB], customBuyung ],
+        { color: 'black', weight: 2, dashArray: '4,4' }
+      ).addTo(localBuyerGroup);
+
+      localBuyerGroup.addTo(map);
+      layerControl.addOverlay(localBuyerGroup, "Pembeli Lokal → Sub kolektor");
+    }
+
+    const script = document.createElement('script');
+    script.src = "https://unpkg.com/leaflet-curve";
+    script.onload = () => {
+      addAOI().then(addValid).then(addSupply).then(addArcLines);
+    };
+    document.head.appendChild(script);
+
+    const legend = L.control({ position: "bottomleft" });
+    legend.onAdd = () => {
+      const div = L.DomUtil.create("div", "legend");
+      div.innerHTML = `
+        <div class="legend-item"><div class="legend-color-box legend-aoi"></div> Area of Interest</div>
+        <div class="legend-item"><div class="legend-color-box legend-valid"></div> Kebun Pemasok</div>
+        <div class="legend-item"><div class="legend-marker"></div> Titik Rantai Pasokan</div>
+        <div class="legend-item"><div class="legend-line"></div> Jalur Distribusi</div>`;
+      return div;
+    };
+    legend.addTo(map);
+  </script>
+</body>
+</html>

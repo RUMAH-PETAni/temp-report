@@ -18,6 +18,10 @@
     }
     .legend-item { display: flex; align-items: center; margin-bottom: 4px; }
     .legend-color { width: 20px; height: 20px; margin-right: 8px; border: 1px solid #555; }
+    /* Responsive legend scaling for mobile */
+    @media (max-width: 768px) {
+      .legend { transform: scale(0.5); transform-origin: bottom left; }
+    }
   </style>
 </head>
 <body>
