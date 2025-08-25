@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alur Distribusi Pasokan Kopi</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
+    body, html {
+      font-family: 'Roboto Mono', monospace;
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+    }
+    #sankey-container {
+      width: 100%;
+      height: calc(100% - 60px);
+      position: relative;
+    }
+    .node rect {
+      shape-rendering: crispEdges;
+      cursor: move;
+      stroke: #000;
+      stroke-width: 0.5px;
+    }
+    .node text {
+      pointer-events: none;
+      text-shadow: 0 1px 0 #fff;
+      font-size: clamp(8px, 1.5vw, 12px);
+    }
+    .link {
+      fill: none;
+      stroke-opacity: .4;
+    }
+    .link:hover {
+      stroke-opacity: .7;
+    }
+    .note { font-size: clamp(8px, 1.5vw, 12px); opacity: .7; margin: 0 16px 8px 16px; }
+    h3 { margin-left: 16px; font-size: clamp(12px, 3vw, 12px); }
+    .tooltip {
+      position: absolute;
+      background: rgba(0,0,0,0.75);
+      color: #fff;
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-size: clamp(8px, 1.5vw, 12px);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+  </style>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/d3-sankey@0.12.3/dist/d3-sankey.min.js"></script>
+</head>
+<body>
+  <h3>Alur Distribusi Pasokan Kopi</h3>
+  <div class="note">Catatan: % volume berdasarkan estimasi luas plot</div>
+  <div id="sankey-container"></div>
+  <div class="tooltip" id="tooltip"></div>
+
+  <script>
+    const data = { /* sama dengan sebelumnya */
+      nodes: [
+        { name: "BNS" }, { name: "Semaka" }, { name: "Lainnya" },
+        { name: "Atar Lebar" }, { name: "Sinar Bangun" }, { name: "Simpang Bayur" },
+        { name: "Way Kerap" }, { name: "Pardawaras" }, { name: "Srikaton" },
+        { name: "HKm Tunas Jaya" }, { name: "HKm Hutan Lestari" }, { name: "Kelompok Petani APL" },
+        { name: "HKm Lestari Sejahtera" }, { name: "Joni" }, { name: "Sunarti" },
+        { name: "Supriyanto" }, { name: "Tasin" }, { name: "Sarwo Edi" }, { name: "Jumaroh" },
+        { name: "Eka Saputra" }, { name: "Buyung" }, { name: "Mujur Jaya" }, { name: "Asia Makmur" }
+      ],
+      links: [
+        { source: 0, target: 3, value: 42 }, { source: 0, target: 4, value: 5 }, { source: 0, target: 5, value: 4 },
+        { source: 1, target: 6, value: 14 }, { source: 1, target: 7, value: 7 }, { source: 1, target: 8, value: 1 },
+        { source: 2, target: 19, value: 13 }, { source: 2, target: 20, value: 14 },
+        { source: 3, target: 9, value: 42 }, { source: 4, target: 10, value: 5 }, { source: 5, target: 11, value: 4 },
+        { source: 6, target: 12, value: 14 }, { source: 7, target: 12, value: 7 }, { source: 8, target: 12, value: 1 },
+        { source: 9, target: 17, value: 42 }, { source: 10, target: 13, value: 5 }, { source: 11, target: 14, value: 2 }, { source: 11, target: 18, value: 2 },
+        { source: 12, target: 15, value: 14 }, { source: 12, target: 16, value: 8 },
+        { source: 15, target: 17, value: 14 }, { source: 16, target: 17, value: 8 },
+        { source: 13, target: 21, value: 5 }, { source: 14, target: 21, value: 2 }, { source: 17, target: 21, value: 64 }, { source: 18, target: 21, value: 2 },
+        { source: 19, target: 21, value: 13 }, { source: 20, target: 21, value: 14 }, { source: 21, target: 22, value: 100 }
+      ]
+    };
+
+    function renderSankey() {
+      const container = document.getElementById("sankey-container");
+      const width = container.clientWidth;
+      const height = container.clientHeight || 500;
+
+      d3.select("#sankey-container").selectAll("svg").remove();
+
+      const svg = d3.select("#sankey-container").append("svg")
+        .attr("width", "100%")
+        .attr("height", "100%")
+        .attr("viewBox", `0 0 ${width} ${height}`)
+        .attr("preserveAspectRatio", "xMidYMid meet")
+        .style("display", "block");
+
+      const sankey = d3.sankey()
+        .nodeWidth(Math.max(20, width * 0.02))
+        .nodePadding(20)
+        .extent([[1, 1], [width - 1, height - 6]]);
+
+      const { nodes, links } = sankey({
+        nodes: data.nodes.map(d => Object.assign({}, d)),
+        links: data.links.map(d => Object.assign({}, d))
+      });
+
+      links.forEach(l => {
+        if (l.source.index <= 2) {
+          l.rootColorIndex = l.source.index;
+        } else {
+          l.rootColorIndex = l.source.rootColorIndex;
+        }
+        l.target.rootColorIndex = l.rootColorIndex;
+      });
+
+      nodes.forEach((n, i) => {
+        if (i <= 2) {
+          n.rootColorIndex = i;
+        }
+      });
+
+      const colorScale = d3.scaleOrdinal()
+        .domain([0, 1, 2])
+        .range(["#1f77b4", "#ff7f0e", "#2ca02c"]);
+
+      const tooltip = d3.select("#tooltip");
+
+      const link = svg.append("g")
+        .attr("fill", "none")
+        .selectAll("path")
+        .data(links)
+        .join("path")
+        .attr("d", d3.sankeyLinkHorizontal())
+        .attr("class", "link")
+        .attr("stroke", d => colorScale(d.rootColorIndex))
+        .attr("stroke-width", d => Math.max(1, d.width))
+        .on("mousemove", function(event, d) {
+          tooltip.style("opacity", 1)
+            .html(`<b>${d.source.name}</b> → <b>${d.target.name}</b><br/>Volume: ${d.value}%`)
+            .style("left", (event.pageX + 10) + "px")
+            .style("top", (event.pageY - 20) + "px");
+        })
+        .on("mouseout", function() {
+          tooltip.style("opacity", 0);
+        });
+
+      const node = svg.append("g")
+        .selectAll("g")
+        .data(nodes)
+        .join("g")
+        .attr("class", "node")
+        .call(d3.drag()
+          .subject(d => d)
+          .on("start", function (event, d) { d3.select(this).raise(); })
+          .on("drag", function (event, d) {
+            d.y0 += event.dy;
+            d.y1 += event.dy;
+            d.x0 += event.dx;
+            d.x1 += event.dx;
+            d3.select(this).select("rect")
+              .attr("x", d.x0)
+              .attr("y", d.y0);
+            d3.select(this).select("text")
+              .attr("x", d.x0 - 6)
+              .attr("y", (d.y0 + d.y1) / 2);
+            sankey.update({ nodes, links });
+            link.attr("d", d3.sankeyLinkHorizontal());
+          })
+        );
+
+      node.append("rect")
+        .attr("x", d => d.x0)
+        .attr("y", d => d.y0)
+        .attr("height", d => d.y1 - d.y0)
+        .attr("width", d => d.x1 - d.x0)
+        .attr("fill", d => colorScale(d.rootColorIndex))
+        .on("mousemove", function(event, d) {
+          tooltip.style("opacity", 1)
+            .html(`<b>${d.name}</b>`)
+            .style("left", (event.pageX + 10) + "px")
+            .style("top", (event.pageY - 20) + "px");
+        })
+        .on("mouseout", function() {
+          tooltip.style("opacity", 0);
+        });
+
+      node.append("text")
+        .attr("x", d => d.x0 - 6)
+        .attr("y", d => (d.y0 + d.y1) / 2)
+        .attr("dy", "0.35em")
+        .attr("text-anchor", "end")
+        .text(d => d.name)
+        .filter(d => d.x0 < width / 2)
+        .attr("x", d => d.x1 + 6)
+        .attr("text-anchor", "start");
+    }
+
+    window.addEventListener("resize", renderSankey);
+    renderSankey();
+  </script>
+</body>
+</html>
